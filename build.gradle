@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+}
+
+mainClassName = 'com.gmail.maxarmour2.maxbot.MaxBot'
+version '1.0.1'
+sourceCompatibility = JavaVersion.VERSION_16
+
+repositories {
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+    mavenCentral()
+    jcenter()
+    maven {
+        name 'jfrog-duncte123'
+        url 'https://duncte123.jfrog.io/artifactory/maven'
+    }
+}
+
+dependencies {
+    implementation 'net.dv8tion:JDA:4.3.0_296'
+    implementation 'com.jagrosh:jda-utilities:3.0.5'
+    implementation 'me.duncte123:botCommons:2.3.8'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'io.github.cdimascio:dotenv-java:2.2.0'
+}
+
+compileJava.options.encoding = 'UTF-8'
