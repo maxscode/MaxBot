@@ -1,9 +1,7 @@
 package com.gmail.maxarmour2.maxbot;
 
-import com.gmail.maxarmour2.maxbot.commands.CommandContext;
-import com.gmail.maxarmour2.maxbot.commands.HelpCommand;
-import com.gmail.maxarmour2.maxbot.commands.ICommand;
-import com.gmail.maxarmour2.maxbot.commands.PingCommand;
+import com.gmail.maxarmour2.maxbot.commands.*;
+import com.gmail.maxarmour2.maxbot.commands.moderation.*;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -20,6 +18,9 @@ public class CommandManager {
     public CommandManager() {
         addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
+
+        // Moderation Commands
+        addCommand(new KickCommand());
     }
 
     private void addCommand(ICommand cmd) {
