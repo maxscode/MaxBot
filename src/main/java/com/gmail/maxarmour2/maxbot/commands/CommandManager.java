@@ -1,5 +1,6 @@
-package com.gmail.maxarmour2.maxbot;
+package com.gmail.maxarmour2.maxbot.commands;
 
+import com.gmail.maxarmour2.maxbot.Config;
 import com.gmail.maxarmour2.maxbot.commands.*;
 import com.gmail.maxarmour2.maxbot.commands.moderation.*;
 
@@ -50,7 +51,7 @@ public class CommandManager {
         return null;
     }
 
-    void handle(GuildMessageReceivedEvent event) {
+    public void handle(GuildMessageReceivedEvent event) {
         String[] split = event.getMessage().getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(Config.get("PREFIX")), "")
                 .split("\\s+");
