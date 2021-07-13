@@ -1,5 +1,8 @@
-Changes 13 July 2021
+1.0.1 - 13 July 2021
 - Added Listener
 - Added CommandManager
 - Added CommandContext
 - Added Ping Command
+
+1.0.2
+- Added Help Command
