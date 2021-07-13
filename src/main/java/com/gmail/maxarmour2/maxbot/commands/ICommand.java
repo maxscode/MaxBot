@@ -2,12 +2,13 @@ package com.gmail.maxarmour2.maxbot.commands;
 
 import java.util.List;
 
-public abstract class ICommand {
-    public abstract void handle(CommandContext ctx);
+public interface ICommand {
 
-    public abstract String getName();
+    void handle(CommandContext ctx);
 
-    public List<String> getAliases() {
+    String getName();
+
+    default List<String> getAliases() {
         return List.of();
     }
 }

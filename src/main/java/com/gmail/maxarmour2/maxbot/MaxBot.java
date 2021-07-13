@@ -6,15 +6,15 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 
 import javax.security.auth.login.LoginException;
+import java.io.ObjectInputFilter;
 
 public class MaxBot {
 
-    private static JDA api;
-
     public static void main(String[] args) throws LoginException {
 
-        api = JDABuilder.createDefault(Config.get("TOKEN")).build();
+        JDA api = JDABuilder.createDefault(Config.get("TOKEN")).build();
         api.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot Development"), false);
+        api.addEventListener(new Listener());
 
 
     }

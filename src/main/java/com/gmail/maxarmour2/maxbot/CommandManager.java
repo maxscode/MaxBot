@@ -2,16 +2,20 @@ package com.gmail.maxarmour2.maxbot;
 
 import com.gmail.maxarmour2.maxbot.commands.CommandContext;
 import com.gmail.maxarmour2.maxbot.commands.ICommand;
+import com.gmail.maxarmour2.maxbot.commands.PingCommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
+
+    public CommandManager() {
+        addCommand(new PingCommand());
+    }
 
     private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
@@ -52,5 +56,4 @@ public class CommandManager {
             cmd.handle(ctx);
         }
     }
-
 }
