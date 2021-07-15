@@ -38,7 +38,7 @@ public class KickCommand implements ICommand {
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
             noUserPerms.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-            noUserPerms.setDescription("You do not have permission to invoke this command.");
+            noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members");
             noUserPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
@@ -51,7 +51,7 @@ public class KickCommand implements ICommand {
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
             noBotPerms.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-            noBotPerms.setDescription("You do not have permission to invoke this command.");
+            noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members");
             noBotPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
@@ -60,11 +60,13 @@ public class KickCommand implements ICommand {
 
         final String reasonForKick = String.join(" ", args.subList(1, args.size()));
 
+        // Kick successful
         EmbedBuilder success = new EmbedBuilder();
         success.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
         success.setDescription(targetMember.getAsMention() + " was kicked");
         success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
+        // Kick Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
         failure.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
         failure.setDescription("Kick failed.\n" + getUsage());

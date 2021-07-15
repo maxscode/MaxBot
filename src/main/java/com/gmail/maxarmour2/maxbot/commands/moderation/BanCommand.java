@@ -65,7 +65,7 @@ public class BanCommand implements ICommand {
         success.setDescription(targetMember.getAsMention() + " was banned");
         success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
-        //  Ba Unsuccessful
+        //  Ban Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
         failure.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
         failure.setDescription("Ban failed.");
