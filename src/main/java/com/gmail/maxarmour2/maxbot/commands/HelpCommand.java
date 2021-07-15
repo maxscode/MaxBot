@@ -1,6 +1,5 @@
 package com.gmail.maxarmour2.maxbot.commands;
 
-import com.gmail.maxarmour2.maxbot.CommandManager;
 import com.gmail.maxarmour2.maxbot.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 

@@ -1,5 +1,6 @@
 package com.gmail.maxarmour2.maxbot;
 
+import com.gmail.maxarmour2.maxbot.commands.CommandManager;
 import me.duncte123.botcommons.BotCommons;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
