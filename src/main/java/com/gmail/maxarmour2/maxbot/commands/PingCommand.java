@@ -1,6 +1,8 @@
 package com.gmail.maxarmour2.maxbot.commands;
 
 import com.gmail.maxarmour2.maxbot.Config;
+import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
+import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 
@@ -48,11 +50,6 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "Usage: `" + Config.get("PREFIX") + getName() + "`";
-    }
-
-    @Override
-    public String getHelpCommand() {
         return "`" + Config.get("PREFIX") + getName() + "`";
     }
 }

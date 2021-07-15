@@ -1,4 +1,6 @@
-package com.gmail.maxarmour2.maxbot.commands;
+package com.gmail.maxarmour2.maxbot.utils.cmd;
+
+import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 
 import java.util.List;
 
@@ -11,8 +13,6 @@ public interface ICommand {
     String getHelp();
 
     String getUsage();
-
-    String getHelpCommand();
 
     default List<String> getAliases() {
         return List.of();

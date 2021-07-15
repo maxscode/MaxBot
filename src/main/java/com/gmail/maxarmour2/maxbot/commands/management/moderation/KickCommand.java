@@ -1,8 +1,8 @@
-package com.gmail.maxarmour2.maxbot.commands.moderation;
+package com.gmail.maxarmour2.maxbot.commands.management.moderation;
 
 import com.gmail.maxarmour2.maxbot.Config;
-import com.gmail.maxarmour2.maxbot.commands.CommandContext;
-import com.gmail.maxarmour2.maxbot.commands.ICommand;
+import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
+import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KickCommand implements ICommand {
 
@@ -91,11 +90,6 @@ public class KickCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "Usage: `" + Config.get("PREFIX") + getName() + " [user] [reason]`";
-    }
-
-    @Override
-    public String getHelpCommand() {
         return "`" + Config.get("PREFIX") + getName() + " [user] [reason]`";
     }
 }

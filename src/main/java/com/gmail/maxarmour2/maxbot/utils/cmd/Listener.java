@@ -1,7 +1,7 @@
-package com.gmail.maxarmour2.maxbot;
+package com.gmail.maxarmour2.maxbot.utils.cmd;
 
-import com.gmail.maxarmour2.maxbot.commands.CommandManager;
-import me.duncte123.botcommons.BotCommons;
+import com.gmail.maxarmour2.maxbot.Config;
+import com.gmail.maxarmour2.maxbot.utils.CustomPrefix;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -27,11 +27,12 @@ public class Listener extends ListenerAdapter {
             return;
         }
 
-        String prefix = Config.get("PREFIX");
+        final long guildId = event.getGuild().getIdLong();
+        String prefix = CustomPrefix.PREFIXES.computeIfAbsent(guildId, (id) -> Config.get("PREFIX"));
         String raw = event.getMessage().getContentRaw();
 
         if (raw.startsWith(prefix)) {
-            manager.handle(event);
+            manager.handle(event, prefix);
         }
     }
 }

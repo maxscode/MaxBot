@@ -13,3 +13,4 @@
 
 1.0.3 -
 - Moved shutdown command to the console
+- Added Custom Prefixes

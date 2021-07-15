@@ -1,6 +1,9 @@
 package com.gmail.maxarmour2.maxbot.commands;
 
 import com.gmail.maxarmour2.maxbot.Config;
+import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
+import com.gmail.maxarmour2.maxbot.utils.cmd.CommandManager;
+import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -26,10 +29,10 @@ public class HelpCommand implements ICommand {
 
         StringBuilder commands = new StringBuilder();
         manager.getCommands().stream().map(ICommand::getName).forEach(
-                (it) -> commands.append("`").append(Config.get("PREFIX")).append(it).append("`\n"));
+                (it) -> commands.append("`").append(it).append("`\n"));
 
         StringBuilder usages = new StringBuilder();
-        manager.getCommands().stream().map(ICommand::getHelpCommand).forEach(
+        manager.getCommands().stream().map(ICommand::getUsage).forEach(
                 (it) -> usages.append(it).append("\n"));
 
 
@@ -71,11 +74,6 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "Usage: `" + Config.get("PREFIX") + getName() + " [COMMAND]`";
-    }
-
-    @Override
-    public String getHelpCommand() {
         return "`" + Config.get("PREFIX") + getName() + " [COMMAND]`";
     }
 }

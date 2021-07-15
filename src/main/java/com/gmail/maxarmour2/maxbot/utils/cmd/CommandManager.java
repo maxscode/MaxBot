@@ -1,8 +1,9 @@
-package com.gmail.maxarmour2.maxbot.commands;
+package com.gmail.maxarmour2.maxbot.utils.cmd;
 
-import com.gmail.maxarmour2.maxbot.Config;
-import com.gmail.maxarmour2.maxbot.commands.*;
-import com.gmail.maxarmour2.maxbot.commands.moderation.*;
+import com.gmail.maxarmour2.maxbot.commands.HelpCommand;
+import com.gmail.maxarmour2.maxbot.commands.PingCommand;
+import com.gmail.maxarmour2.maxbot.commands.management.SetCustomPrefixCommand;
+import com.gmail.maxarmour2.maxbot.commands.management.moderation.*;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -23,6 +24,9 @@ public class CommandManager {
         // Moderation Commands
         addCommand(new KickCommand());
         addCommand(new BanCommand());
+
+        // Management Commands
+        addCommand(new SetCustomPrefixCommand());
     }
 
     private void addCommand(ICommand cmd) {
@@ -52,9 +56,9 @@ public class CommandManager {
         return null;
     }
 
-    public void handle(GuildMessageReceivedEvent event) {
+    void handle(GuildMessageReceivedEvent event, String prefix) {
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst("(?i)" + Pattern.quote(Config.get("PREFIX")), "")
+                .replaceFirst("(?i)" + Pattern.quote(prefix), "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();

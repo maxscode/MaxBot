@@ -1,4 +1,4 @@
-package com.gmail.maxarmour2.maxbot.commands;
+package com.gmail.maxarmour2.maxbot.utils.cmd;
 
 import me.duncte123.botcommons.commands.ICommandContext;
 import net.dv8tion.jda.api.entities.Guild;
