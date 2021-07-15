@@ -50,7 +50,7 @@ public class BanCommand implements ICommand {
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
             noBotPerms.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
-            noBotPerms.setDescription("You do not have permission to invoke this command.");
+            noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Ban Members");
             noBotPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
@@ -73,7 +73,6 @@ public class BanCommand implements ICommand {
                 (__) -> channel.sendMessageEmbeds(success.build()).queue(),
                 (error) -> channel.sendMessageEmbeds(failure.build()).queue()
         );
-
     }
 
     @Override
