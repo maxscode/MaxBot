@@ -48,11 +48,11 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "Usage: `" + Config.get("PREFIX") + "ping`";
+        return "Usage: `" + Config.get("PREFIX") + getName() + "`";
     }
 
     @Override
     public String getHelpCommand() {
-        return "`" + Config.get("PREFIX") + "ping`";
+        return "`" + Config.get("PREFIX") + getName() + "`";
     }
 }

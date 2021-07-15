@@ -22,6 +22,7 @@ public class CommandManager {
 
         // Moderation Commands
         addCommand(new KickCommand());
+        addCommand(new BanCommand());
     }
 
     private void addCommand(ICommand cmd) {

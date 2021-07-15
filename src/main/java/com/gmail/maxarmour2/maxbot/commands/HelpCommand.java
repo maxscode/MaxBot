@@ -67,11 +67,11 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "Usage: `" + Config.get("PREFIX") + "help [COMMAND]`";
+        return "Usage: `" + Config.get("PREFIX") + getName() + " [COMMAND]`";
     }
 
     @Override
     public String getHelpCommand() {
-        return "`" + Config.get("PREFIX") + "help [COMMAND]`";
+        return "`" + Config.get("PREFIX") + getName() + " [COMMAND]`";
     }
 }

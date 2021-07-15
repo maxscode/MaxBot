@@ -10,12 +10,11 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class KickCommand implements ICommand {
-
+public class BanCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
+
         final TextChannel channel = ctx.getChannel();
         final Message message = ctx.getMessage();
         final Member member = ctx.getMember();
@@ -23,11 +22,12 @@ public class KickCommand implements ICommand {
 
         final Member selfMember = ctx.getSelfMember();
         final Member targetMember = message.getMentionedMembers().get(0);
-        final String reasonForKick =  String.join(" ", args.subList(1, args.size()));
+        final String reasonForBan = String.join(" ", args.subList(1, args.size()));
 
-        if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
+        // Missing Arguments Message.
+        if (args.size() < 2 || message.getMentionedMembers().isEmpty() || args.isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
+            missingArgs.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
             missingArgs.setDescription("Missing Arguments.\n" + getUsage());
             missingArgs.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
@@ -35,9 +35,10 @@ public class KickCommand implements ICommand {
             return;
         }
 
-        if (!member.canInteract(targetMember) || !member.hasPermission(Permission.KICK_MEMBERS)) {
+        // Executed if the member who invokes this command does not have the permissions.
+        if (!member.canInteract(targetMember) || !member.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
+            noUserPerms.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
             noUserPerms.setDescription("You do not have permission to invoke this command.");
             noUserPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
@@ -45,51 +46,42 @@ public class KickCommand implements ICommand {
             return;
         }
 
-        if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.KICK_MEMBERS)) {
+        // Executed if the bot does not have the permissions to execute the command.
+        if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
-            noBotPerms.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-            noBotPerms.setDescription("I do not have permission to execute this command.");
+            noBotPerms.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
+            noBotPerms.setDescription("You do not have permission to invoke this command.");
             noBotPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
         }
 
-        AtomicBoolean userIsKicked = new AtomicBoolean(false);
 
-        ctx.getGuild().ban(targetMember, 0, reasonForKick).reason(reasonForKick).queue(
-                (__) -> userIsKicked.set(true),
-                (error) -> userIsKicked.set(false));
+        EmbedBuilder success = new EmbedBuilder();
+        success.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
+        success.setDescription(targetMember.getAsMention() + " was banned");
+        success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
-        if (userIsKicked.get()) {
-            EmbedBuilder success = new EmbedBuilder();
-            success.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-            success.setDescription(targetMember.getAsMention() + " was kicked");
-            success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+        EmbedBuilder failure = new EmbedBuilder();
+        failure.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
+        failure.setDescription("Ban failed.");
+        failure.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
-            channel.sendMessageEmbeds(success.build()).queue();
-            return;
-        }
-
-        if (!userIsKicked.get()) {
-            EmbedBuilder failure = new EmbedBuilder();
-            failure.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-            failure.setDescription("Kick failed.");
-            failure.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
-
-            channel.sendMessageEmbeds(failure.build()).queue();
-        }
+        ctx.getGuild().ban(targetMember, 0, reasonForBan).reason(reasonForBan).queue(
+                (__) -> channel.sendMessageEmbeds(success.build()).queue(),
+                (error) -> channel.sendMessageEmbeds(failure.build()).queue());
 
     }
 
     @Override
     public String getName() {
-        return "kick";
+        return "ban";
     }
 
     @Override
     public String getHelp() {
-        return "Kicks the specified player from the server. Requires Kick permission to invoke.";
+        return "Bans the target player from the server. Requires Ban permission to invoke";
     }
 
     @Override
