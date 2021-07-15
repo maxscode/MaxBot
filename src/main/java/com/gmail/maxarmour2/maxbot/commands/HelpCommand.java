@@ -1,9 +1,12 @@
 package com.gmail.maxarmour2.maxbot.commands;
 
 import com.gmail.maxarmour2.maxbot.Config;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
+
 
 public class HelpCommand implements ICommand {
 
@@ -15,19 +18,30 @@ public class HelpCommand implements ICommand {
 
     @Override
     public void handle(CommandContext ctx) {
+
+        JDA api = ctx.getJDA();
+
         List<String> args = ctx.getArgs();
         TextChannel channel = ctx.getChannel();
 
+        StringBuilder commands = new StringBuilder();
+        manager.getCommands().stream().map(ICommand::getName).forEach(
+                (it) -> commands.append("`").append(Config.get("PREFIX")).append(it).append("`\n"));
+
+        StringBuilder usages = new StringBuilder();
+        manager.getCommands().stream().map(ICommand::getHelpCommand).forEach(
+                (it) -> usages.append(it).append("\n"));
+
+
         if (args.isEmpty()) {
-            StringBuilder builder = new StringBuilder();
 
-            builder.append("List of Commands:\n");
+            EmbedBuilder output = new EmbedBuilder();
+            output.setAuthor("Commands", null, api.getSelfUser().getAvatarUrl());
+            output.addField("Command", commands.toString(), true);
+            output.addField("Usage", usages.toString(), true);
+            output.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
-            manager.getCommands().stream().map(ICommand::getName).forEach(
-                    (it) -> builder.append("`").append(Config.get("PREFIX")).append(it).append("`\n"));
-
-            channel.sendMessage(builder.toString()).queue();
-            return;
+            channel.sendMessageEmbeds(output.build()).queue();
         }
 
         String search = args.get(0);
@@ -53,6 +67,11 @@ public class HelpCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "Use `" + Config.get("PREFIX") + "help [COMMAND]`";
+        return "Usage: `" + Config.get("PREFIX") + "help [COMMAND]`";
+    }
+
+    @Override
+    public String getHelpCommand() {
+        return "`" + Config.get("PREFIX") + "help [COMMAND]`";
     }
 }

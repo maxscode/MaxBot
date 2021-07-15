@@ -12,6 +12,8 @@ public interface ICommand {
 
     String getUsage();
 
+    String getHelpCommand();
+
     default List<String> getAliases() {
         return List.of();
     }

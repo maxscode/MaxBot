@@ -61,4 +61,9 @@ public class KickCommand implements ICommand {
     public String getUsage() {
         return "Usage: `" + Config.get("PREFIX") + "kick [player] [reason]`";
     }
+
+    @Override
+    public String getHelpCommand() {
+        return "`" + Config.get("PREFIX") + "kick [player] [reason]`";
+    }
 }
