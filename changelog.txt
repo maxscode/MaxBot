@@ -6,3 +6,4 @@
 
 1.0.2
 - Added Help Command
+- Moved shutdown command to the console
