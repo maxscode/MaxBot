@@ -37,7 +37,7 @@ public class BanCommand implements ICommand {
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
             noUserPerms.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
-            noUserPerms.setDescription("You do not have permission to invoke this command.");
+            noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Ban Members");
             noUserPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
@@ -59,11 +59,13 @@ public class BanCommand implements ICommand {
 
         final String reasonForBan = String.join(" ", args.subList(1, args.size()));
 
+        // Ban successful
         EmbedBuilder success = new EmbedBuilder();
         success.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
         success.setDescription(targetMember.getAsMention() + " was banned");
         success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
 
+        //  Ba Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
         failure.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
         failure.setDescription("Ban failed.");
