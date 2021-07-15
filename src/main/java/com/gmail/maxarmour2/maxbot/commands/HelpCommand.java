@@ -51,8 +51,12 @@ public class HelpCommand implements ICommand {
             channel.sendMessage("Command `" + search + "` does not exist").queue();
             return;
         }
-        channel.sendMessage(command.getHelp()).queue();
-        channel.sendMessage(command.getUsage()).queue();
+        EmbedBuilder usageInfo = new EmbedBuilder();
+        usageInfo.setAuthor("Help Command", null, api.getSelfUser().getAvatarUrl());
+        usageInfo.setDescription(command.getHelp() + "\n" + command.getUsage());
+        usageInfo.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+
+        channel.sendMessageEmbeds(usageInfo.build()).queue();
     }
 
     @Override

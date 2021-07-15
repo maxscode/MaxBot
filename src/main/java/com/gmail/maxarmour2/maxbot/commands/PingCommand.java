@@ -21,17 +21,17 @@ public class PingCommand implements ICommand {
 
         if (gatePing < 200) {
             output.setColor(0x3aeb34);
-            output.setFooter("Ping is Low!");
+            output.setFooter("Ping is Low!\nCommand invoked by " + ctx.getAuthor().getAsTag());
         }
 
         if (gatePing > 200 && gatePing < 500) {
             output.setColor(0xff7700);
-            output.setFooter("Ping is OK.");
+            output.setFooter("Ping is OK.\nCommand invoked by " + ctx.getAuthor().getAsTag());
         }
 
         if (gatePing > 500) {
             output.setColor(0xff0000);
-            output.setFooter("Ping is High!");
+            output.setFooter("Ping is High!\nCommand invoked by " + ctx.getAuthor().getAsTag());
         }
         ctx.getChannel().sendMessageEmbeds(output.build()).queue();
     }
