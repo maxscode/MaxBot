@@ -10,3 +10,6 @@
 - Added Kick Command
 - Added Embeds for all Bot Responses
 - Removed REST ping from Ping Command (will be added back later
+
+1.0.3 -
+- Moved shutdown command to the console
