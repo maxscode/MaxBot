@@ -28,7 +28,7 @@ public class MaxBot {
 
         if (scanned.equals("shutdown")) {
             LOGGER.info("Shutting Down...");
-            api.shutdown();
+            api.shutdownNow();
             BotCommons.shutdown(api);
         }
     }

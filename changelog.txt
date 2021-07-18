@@ -14,3 +14,4 @@
 1.0.3 -
 - Moved shutdown command to the console
 - Added Custom Prefixes
+- Added MaxBot Git webhook in MaxBot Discord Server
