@@ -1,7 +1,5 @@
 package com.gmail.maxarmour2.maxbot.utils.cmd;
 
-import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
-
 import java.util.List;
 
 public interface ICommand {
