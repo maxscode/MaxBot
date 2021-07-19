@@ -40,7 +40,7 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows the Bot's current ping in milliseconds.";
+        return "Shows the current ping";
     }
 
     @Override
@@ -50,6 +50,6 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return "`" + Config.get("PREFIX") + getName() + "`";
+        return getName() + "`";
     }
 }

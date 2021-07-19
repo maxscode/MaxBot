@@ -85,11 +85,11 @@ public class KickCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Kicks the specified player from the server. Requires Kick permission to invoke.";
+        return "Kicks the specified player from the server.";
     }
 
     @Override
     public String getUsage() {
-        return "`" + Config.get("PREFIX") + getName() + " [user] [reason]`";
+        return getName() + " [user] [reason]`";
     }
 }

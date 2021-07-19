@@ -61,11 +61,11 @@ public class SetCustomPrefixCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Sets the prefix required to invoke MaxBot Commands";
+        return "Sets the prefix for this server.";
     }
 
     @Override
     public String getUsage() {
-        return "`" + Config.get("PREFIX") + "[prefix]`";
+        return getName() + "[prefix]`";
     }
 }

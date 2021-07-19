@@ -84,11 +84,11 @@ public class BanCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Bans the target player from the server. Requires Ban permission to invoke";
+        return "Bans the target player from the server";
     }
 
     @Override
     public String getUsage() {
-        return "`" + Config.get("PREFIX") + getName() + " [user] [reason]`";
+        return getName() + " [user] [reason]`";
     }
 }
