@@ -15,3 +15,4 @@
 - Moved shutdown command to the console
 - Added Custom Prefixes
 - Added MaxBot Git webhook in MaxBot Discord Server
+- Switch Syntax to Usage statement in help command
