@@ -1,5 +1,6 @@
 package com.gmail.maxarmour2.maxbot.commands.management.moderation;
 
+import com.gmail.maxarmour2.maxbot.utils.CustomPrefix;
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -18,13 +19,15 @@ public class KickCommand implements ICommand {
         final Message message = ctx.getMessage();
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
+        final String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
         // Missing Arguments Message.
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-            missingArgs.setDescription("Missing Arguments.\n" + getUsage());
-            missingArgs.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+            missingArgs.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+            missingArgs.setTitle("Kick Command");
+            missingArgs.setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
+            missingArgs.setFooter("MaxBot Server Management");
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -35,9 +38,10 @@ public class KickCommand implements ICommand {
         // Executed if the member who invokes this command does not have the permissions.
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
+            noUserPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+            noUserPerms.setTitle("Kick Command");
             noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members");
-            noUserPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+            noUserPerms.setFooter("MaxBot Server Management");
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -48,9 +52,10 @@ public class KickCommand implements ICommand {
         // Executed if the bot does not have the permissions to execute the command.
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
-            noBotPerms.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
+            noBotPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+            noBotPerms.setTitle("Kick Command");
             noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members");
-            noBotPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+            noBotPerms.setFooter("MaxBot Server Management");
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
@@ -60,15 +65,17 @@ public class KickCommand implements ICommand {
 
         // Kick successful
         EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
+        success.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+        success.setTitle("Kick Command");
         success.setDescription(targetMember.getAsMention() + " was kicked");
-        success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+        success.setFooter("MaxBot Server Management");
 
         // Kick Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
-        failure.setAuthor("Kick Command", null, ctx.getSelfUser().getAvatarUrl());
-        failure.setDescription("Kick failed.\n" + getUsage());
-        failure.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+        failure.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+        failure.setTitle("Kick Command");
+        failure.setDescription("Kick unsuccessful.");
+        failure.setFooter("MaxBot Server Management");
 
         ctx.getGuild().kick(targetMember, reasonForKick).reason(reasonForKick).queue(
                 (__) -> channel.sendMessageEmbeds(success.build()).queue(),
@@ -89,6 +96,6 @@ public class KickCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return getName() + " [user] [reason]`";
+        return getName() + " [user] [reason]";
     }
 }

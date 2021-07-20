@@ -49,6 +49,6 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return getName() + "`";
+        return getName();
     }
 }

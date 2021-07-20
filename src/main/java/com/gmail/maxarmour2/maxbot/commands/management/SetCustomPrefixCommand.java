@@ -23,8 +23,8 @@ public class SetCustomPrefixCommand implements ICommand {
         if (args.isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
             missingArgs.setAuthor(author.getAsTag(), null, author.getAvatarUrl());
-            missingArgs.setTitle("Missing Args");
-            missingArgs.setDescription("Usage: `" + getUsage() + "`");
+            missingArgs.setTitle("Set Prefix");
+            missingArgs.setDescription("Missing Args\nUsage: `" + getUsage() + "`");
             missingArgs.setFooter("MaxBot Management Commands");
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
@@ -34,7 +34,7 @@ public class SetCustomPrefixCommand implements ICommand {
         if (!member.hasPermission(Permission.MANAGE_SERVER)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
             noUserPerms.setAuthor(author.getAsTag(), null, author.getAvatarUrl());
-            noUserPerms.setTitle("No Permission");
+            noUserPerms.setTitle("Set Prefix");
             noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Manage Server");
             noUserPerms.setFooter("MaxBot Management Commands");
 
@@ -46,7 +46,8 @@ public class SetCustomPrefixCommand implements ICommand {
         CustomPrefix.PREFIXES.put(ctx.getGuild().getIdLong(), newPrefix);
 
         EmbedBuilder success = new EmbedBuilder();
-        success.setTitle("Prefix Changed");
+        success.setAuthor(author.getAsTag(), null, author.getAvatarUrl());
+        success.setTitle("Set Prefix");
         success.setDescription("Prefix has been modified to `" + newPrefix + "`");
         success.setFooter("MaxBot Management Commands");
 
@@ -65,6 +66,6 @@ public class SetCustomPrefixCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return getName() + "[prefix]`";
+        return getName() + "[prefix]";
     }
 }

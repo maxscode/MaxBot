@@ -22,9 +22,10 @@ public class BanCommand implements ICommand {
         // Missing Arguments Message.
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
-            missingArgs.setDescription("Missing Arguments.\n" + getUsage());
-            missingArgs.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+            missingArgs.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+            missingArgs.setTitle("Ban Command");
+            missingArgs.setDescription("Missing Arguments.");
+            missingArgs.setFooter("MaxBot Server Management");
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -35,9 +36,10 @@ public class BanCommand implements ICommand {
         // Executed if the member who invokes this command does not have the permissions.
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
+            noUserPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+            noUserPerms.setTitle("Ban Command");
             noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Ban Members");
-            noUserPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+            noUserPerms.setFooter("MaxBot Server Management");
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -48,9 +50,10 @@ public class BanCommand implements ICommand {
         // Executed if the bot does not have the permissions to execute the command.
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
-            noBotPerms.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
+            noBotPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+            noBotPerms.setTitle("Ban Command");
             noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Ban Members");
-            noBotPerms.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+            noBotPerms.setFooter("MaxBot Server Management");
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
@@ -60,15 +63,17 @@ public class BanCommand implements ICommand {
 
         // Ban successful
         EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
-        success.setDescription(targetMember.getAsMention() + " was banned");
-        success.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+        success.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+        success.setTitle("Ban Command");
+        success.setDescription(targetMember.getAsMention() + " was banned.");
+        success.setFooter("MaxBot Server Management");
 
         //  Ban Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
-        failure.setAuthor("Ban Command", null, ctx.getSelfUser().getAvatarUrl());
+        failure.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
+        failure.setTitle("Ban Command");
         failure.setDescription("Ban failed.");
-        failure.setFooter("Command invoked by " + ctx.getAuthor().getAsTag());
+        failure.setFooter("MaxBot Server Management");
 
         ctx.getGuild().ban(targetMember, 0, reasonForBan).reason(reasonForBan).queue(
                 (__) -> channel.sendMessageEmbeds(success.build()).queue(),
@@ -88,6 +93,6 @@ public class BanCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return getName() + " [user] [reason]`";
+        return getName() + " [user] [reason]";
     }
 }
