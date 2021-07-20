@@ -1,6 +1,5 @@
 package com.gmail.maxarmour2.maxbot.commands.management;
 
-import com.gmail.maxarmour2.maxbot.Config;
 import com.gmail.maxarmour2.maxbot.utils.CustomPrefix;
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;

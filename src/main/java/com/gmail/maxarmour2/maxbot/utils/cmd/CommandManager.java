@@ -1,8 +1,7 @@
 package com.gmail.maxarmour2.maxbot.utils.cmd;
 
-import com.gmail.maxarmour2.maxbot.commands.HelpCommand;
-import com.gmail.maxarmour2.maxbot.commands.PingCommand;
-import com.gmail.maxarmour2.maxbot.commands.management.SetCustomPrefixCommand;
+import com.gmail.maxarmour2.maxbot.commands.*;
+import com.gmail.maxarmour2.maxbot.commands.management.*;
 import com.gmail.maxarmour2.maxbot.commands.management.moderation.*;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
