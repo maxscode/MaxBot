@@ -25,10 +25,10 @@ public class MaxBot {
 
         JDA api = JDABuilder.createDefault(
                 Config.get("TOKEN"),
-                GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES)
+                GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES)
                 .disableCache(
-                        CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY,
-                        CacheFlag.EMOTE, CacheFlag.VOICE_STATE)
+                        CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY, CacheFlag.EMOTE)
+                .enableCache(CacheFlag.VOICE_STATE)
                 .build();
 
 

@@ -4,6 +4,7 @@ import com.gmail.maxarmour2.maxbot.commands.*;
 import com.gmail.maxarmour2.maxbot.commands.management.*;
 import com.gmail.maxarmour2.maxbot.commands.management.moderation.*;
 
+import com.gmail.maxarmour2.maxbot.commands.music.JoinCommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nullable;
@@ -19,6 +20,9 @@ public class CommandManager {
     public CommandManager() {
         addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
+
+        // Music Commands
+        addCommand(new JoinCommand());
 
         // Moderation Commands
         addCommand(new KickCommand());

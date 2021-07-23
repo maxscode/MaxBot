@@ -21,3 +21,6 @@
 - Switch Syntax to Usage statement in help command
 - Implement Gateway intents in the Main class
 - Embeds now reference local string variables for titles, footers, etc
+
+0.1.5-alpha
+- Added Join Voice Channel Command
