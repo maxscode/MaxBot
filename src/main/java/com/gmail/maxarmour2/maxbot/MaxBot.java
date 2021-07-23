@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +23,15 @@ public class MaxBot {
     public static void main(String[] args) throws LoginException, SQLException {
         SQLiteDataSource.getConnection();
 
-        JDA api = JDABuilder.createDefault(Config.get("TOKEN")).build();
+        JDA api = JDABuilder.createDefault(
+                Config.get("TOKEN"),
+                GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES)
+                .disableCache(
+                        CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY,
+                        CacheFlag.EMOTE, CacheFlag.VOICE_STATE)
+                .build();
+
+
         api.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot Development"), false);
         api.addEventListener(new Listener());
 
