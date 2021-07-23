@@ -4,4 +4,5 @@
 /out/
 /.idea/
 .env
+database.db
 

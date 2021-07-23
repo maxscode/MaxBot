@@ -16,3 +16,8 @@
 - Added Custom Prefixes
 - Added MaxBot Git webhook in MaxBot Discord Server
 - Switch Syntax to Usage statement in help command
+
+0.1.4-alpha
+- Implement a SQLite database for custom prefixes
+- Added MaxBot Git webhook in MaxBot Discord Server
+- Switch Syntax to Usage statement in help command
