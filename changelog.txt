@@ -14,8 +14,6 @@
 0.1.3-alpha - 19 July 2021
 - Moved shutdown command to the console
 - Added Custom Prefixes
-- Added MaxBot Git webhook in MaxBot Discord Server
-- Switch Syntax to Usage statement in help command
 
 0.1.4-alpha
 - Implement a SQLite database for custom prefixes
