@@ -19,3 +19,4 @@
 - Implement a SQLite database for custom prefixes
 - Added MaxBot Git webhook in MaxBot Discord Server
 - Switch Syntax to Usage statement in help command
+- Implement Gateway intents in the Main class
