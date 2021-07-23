@@ -19,13 +19,19 @@ public class BanCommand implements ICommand {
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
 
+        // Embed Defaults
+        String defaultAuthor = ctx.getAuthor().getAsTag();
+        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
+        String defaultTitle = "Ban Command";
+        String defaultFooter = "MaxBot Server Management";
+
         // Missing Arguments Message.
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            missingArgs.setTitle("Ban Command");
+            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            missingArgs.setTitle(defaultTitle);
             missingArgs.setDescription("Missing Arguments.");
-            missingArgs.setFooter("MaxBot Server Management");
+            missingArgs.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -36,10 +42,10 @@ public class BanCommand implements ICommand {
         // Executed if the member who invokes this command does not have the permissions.
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            noUserPerms.setTitle("Ban Command");
+            noUserPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            noUserPerms.setTitle(defaultTitle);
             noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Ban Members");
-            noUserPerms.setFooter("MaxBot Server Management");
+            noUserPerms.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -50,10 +56,10 @@ public class BanCommand implements ICommand {
         // Executed if the bot does not have the permissions to execute the command.
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
-            noBotPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            noBotPerms.setTitle("Ban Command");
+            noBotPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            noBotPerms.setTitle(defaultTitle);
             noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Ban Members");
-            noBotPerms.setFooter("MaxBot Server Management");
+            noBotPerms.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
@@ -63,17 +69,17 @@ public class BanCommand implements ICommand {
 
         // Ban successful
         EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-        success.setTitle("Ban Command");
+        success.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+        success.setTitle(defaultTitle);
         success.setDescription(targetMember.getAsMention() + " was banned.");
-        success.setFooter("MaxBot Server Management");
+        success.setFooter(defaultFooter);
 
         //  Ban Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
-        failure.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-        failure.setTitle("Ban Command");
+        failure.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+        failure.setTitle(defaultTitle);
         failure.setDescription("Ban failed.");
-        failure.setFooter("MaxBot Server Management");
+        failure.setFooter(defaultFooter);
 
         ctx.getGuild().ban(targetMember, 0, reasonForBan).reason(reasonForBan).queue(
                 (__) -> channel.sendMessageEmbeds(success.build()).queue(),

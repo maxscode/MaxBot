@@ -21,13 +21,19 @@ public class KickCommand implements ICommand {
         final List<String> args = ctx.getArgs();
         final String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
+        // Embed Defaults
+        String defaultAuthor = ctx.getAuthor().getAsTag();
+        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
+        String defaultTitle = "Kick Command";
+        String defaultFooter = "MaxBot Server Management";
+
         // Missing Arguments Message.
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            missingArgs.setTitle("Kick Command");
+            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            missingArgs.setTitle(defaultTitle);
             missingArgs.setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
-            missingArgs.setFooter("MaxBot Server Management");
+            missingArgs.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -38,10 +44,10 @@ public class KickCommand implements ICommand {
         // Executed if the member who invokes this command does not have the permissions.
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            noUserPerms.setTitle("Kick Command");
+            noUserPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            noUserPerms.setTitle(defaultTitle);
             noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members");
-            noUserPerms.setFooter("MaxBot Server Management");
+            noUserPerms.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -52,10 +58,10 @@ public class KickCommand implements ICommand {
         // Executed if the bot does not have the permissions to execute the command.
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder();
-            noBotPerms.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            noBotPerms.setTitle("Kick Command");
+            noBotPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            noBotPerms.setTitle(defaultTitle);
             noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members");
-            noBotPerms.setFooter("MaxBot Server Management");
+            noBotPerms.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
@@ -65,17 +71,17 @@ public class KickCommand implements ICommand {
 
         // Kick successful
         EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-        success.setTitle("Kick Command");
+        success.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+        success.setTitle(defaultTitle);
         success.setDescription(targetMember.getAsMention() + " was kicked");
-        success.setFooter("MaxBot Server Management");
+        success.setFooter(defaultFooter);
 
         // Kick Unsuccessful
         EmbedBuilder failure = new EmbedBuilder();
-        failure.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-        failure.setTitle("Kick Command");
+        failure.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+        failure.setTitle(defaultTitle);
         failure.setDescription("Kick unsuccessful.");
-        failure.setFooter("MaxBot Server Management");
+        failure.setFooter(defaultFooter);
 
         ctx.getGuild().kick(targetMember, reasonForKick).reason(reasonForKick).queue(
                 (__) -> channel.sendMessageEmbeds(success.build()).queue(),

@@ -21,14 +21,19 @@ public class SetCustomPrefixCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
-        final User author = ctx.getAuthor();
+
+        // Embed Defaults
+        String defaultAuthor = ctx.getAuthor().getAsTag();
+        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
+        String defaultTitle = "Set Prefix Command";
+        String defaultFooter = "MaxBot Server Management";
 
         if (args.isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor(author.getAsTag(), null, author.getAvatarUrl());
-            missingArgs.setTitle("Set Prefix");
+            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            missingArgs.setTitle(defaultTitle);
             missingArgs.setDescription("Missing Args\nUsage: `" + getUsage() + "`");
-            missingArgs.setFooter("MaxBot Management Commands");
+            missingArgs.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -36,10 +41,10 @@ public class SetCustomPrefixCommand implements ICommand {
 
         if (!member.hasPermission(Permission.MANAGE_SERVER)) {
             EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor(author.getAsTag(), null, author.getAvatarUrl());
-            noUserPerms.setTitle("Set Prefix");
+            noUserPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            noUserPerms.setTitle(defaultTitle);
             noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Manage Server");
-            noUserPerms.setFooter("MaxBot Management Commands");
+            noUserPerms.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -49,10 +54,10 @@ public class SetCustomPrefixCommand implements ICommand {
         updatePrefix(ctx.getGuild().getIdLong(), newPrefix);
 
         EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor(author.getAsTag(), null, author.getAvatarUrl());
-        success.setTitle("Set Prefix");
+        success.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+        success.setTitle(defaultTitle);
         success.setDescription("Prefix has been modified to `" + newPrefix + "`");
-        success.setFooter("MaxBot Management Commands");
+        success.setFooter(defaultFooter);
 
         channel.sendMessageEmbeds(success.build()).queue();
     }

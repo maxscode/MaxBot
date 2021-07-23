@@ -35,15 +35,21 @@ public class HelpCommand implements ICommand {
         manager.getCommands().stream().map(ICommand::getHelp).forEach(
                 (it) -> usages.append(it).append("\n"));
 
+        // Embed Defaults
+        String defaultAuthor = ctx.getAuthor().getAsTag();
+        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
+        String defaultTitle = "Help Command";
+        String defaultFooter = "MaxBot Command Manager";
+
 
         if (args.isEmpty()) {
 
             EmbedBuilder output = new EmbedBuilder();
-            output.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-            output.setTitle("Help Command");
+            output.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            output.setTitle(defaultTitle);
             output.addField("Command", commands.toString(), true);
             output.addField("Usage", usages.toString(), true);
-            output.setFooter("Use "+ prefix + "help [command] for more information\nMaxBot Command Manager");
+            output.setFooter("Use "+ prefix + "help [command] for more information\n" + defaultFooter);
 
             channel.sendMessageEmbeds(output.build()).queue();
             return;
@@ -57,10 +63,10 @@ public class HelpCommand implements ICommand {
             return;
         }
         EmbedBuilder usageInfo = new EmbedBuilder();
-        usageInfo.setAuthor(ctx.getAuthor().getAsTag(), null, ctx.getAuthor().getAvatarUrl());
-        usageInfo.setTitle("Help Command");
+        usageInfo.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+        usageInfo.setTitle(defaultTitle);
         usageInfo.setDescription(command.getHelp() + "\n" + "Usage: `" + prefix +  command.getUsage() + "`");
-        usageInfo.setFooter("MaxBot Command Manager");
+        usageInfo.setFooter(defaultFooter);
 
         channel.sendMessageEmbeds(usageInfo.build()).queue();
     }
