@@ -9,7 +9,7 @@
 - Added Ban Command
 - Added Kick Command
 - Added Embeds for all Bot Responses
-- Removed REST ping from Ping Command (will be added back later
+- Removed REST ping from Ping Command (will be added back later)
 
 0.1.3-alpha - 19 July 2021
 - Moved shutdown command to the console
