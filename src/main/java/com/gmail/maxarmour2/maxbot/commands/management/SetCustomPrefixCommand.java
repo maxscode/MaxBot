@@ -26,7 +26,7 @@ public class SetCustomPrefixCommand implements ICommand {
         String defaultAuthor = ctx.getAuthor().getAsTag();
         String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Set Prefix Command";
-        String defaultFooter = "MaxBot Server Management";
+        String defaultFooter = "TIP: The default prefix is 'm.'\nMaxBot Server Management";
 
         if (args.isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder();
