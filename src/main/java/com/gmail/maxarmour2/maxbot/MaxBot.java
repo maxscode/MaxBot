@@ -31,17 +31,24 @@ public class MaxBot {
                 .enableCache(CacheFlag.VOICE_STATE)
                 .build();
 
-
         api.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot Development"), false);
         api.addEventListener(new Listener());
 
         Scanner consoleCommands = new Scanner(System.in);
-        String scanned = consoleCommands.next();
+        while (consoleCommands.hasNext()) {
 
-        if (scanned.equals("shutdown")) {
-            LOGGER.info("Shutting Down...");
-            api.shutdownNow();
-            BotCommons.shutdown(api);
+            String scanned = consoleCommands.next();
+
+            if (scanned.equals("shutdown")) {
+
+                LOGGER.info("Shutting Down...");
+                api.shutdownNow();
+                BotCommons.shutdown(api);
+                System.exit(0);
+
+            } else {
+                LOGGER.info("Invalid Command.");
+            }
         }
     }
 }
