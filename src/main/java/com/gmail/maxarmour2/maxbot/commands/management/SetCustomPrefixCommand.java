@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,6 +20,7 @@ public class SetCustomPrefixCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
+        String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
         // Embed Defaults
         String defaultAuthor = ctx.getAuthor().getAsTag();
@@ -32,7 +32,7 @@ public class SetCustomPrefixCommand implements ICommand {
             EmbedBuilder missingArgs = new EmbedBuilder();
             missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
             missingArgs.setTitle(defaultTitle);
-            missingArgs.setDescription("Missing Args\nUsage: `" + getUsage() + "`");
+            missingArgs.setDescription("Missing Args\nUsage: `" + prefix + getUsage() + "`");
             missingArgs.setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
@@ -74,7 +74,7 @@ public class SetCustomPrefixCommand implements ICommand {
 
     @Override
     public String getUsage() {
-        return getName() + "[prefix]";
+        return getName() + " [prefix]";
     }
 
     private void updatePrefix(long guildId, String newPrefix) {
