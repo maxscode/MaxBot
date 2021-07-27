@@ -28,6 +28,7 @@ public class CommandManager {
         addCommand(new PauseCommand());
         addCommand(new ResumeCommand());
         addCommand(new SkipCommand());
+        addCommand(new NowPlayingCommand());
 
         // Moderation Commands
         addCommand(new KickCommand());

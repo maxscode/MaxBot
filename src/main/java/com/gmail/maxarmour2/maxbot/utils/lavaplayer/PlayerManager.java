@@ -1,7 +1,6 @@
 package com.gmail.maxarmour2.maxbot.utils.lavaplayer;
 
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
-import com.gmail.maxarmour2.maxbot.utils.cmd.CommandManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -59,10 +58,10 @@ public class PlayerManager {
                 musicManager.scheduler.queue(track);
 
                 EmbedBuilder trackLoaded = new EmbedBuilder();
-                trackLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-                trackLoaded.setTitle(defaultTitle);
-                trackLoaded.setDescription("Adding to queue: `" + track.getInfo().title + "` by `" + track.getInfo().author + "`");
-                trackLoaded.setFooter(defaultFooter);
+                trackLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                        .setTitle(defaultTitle)
+                        .setDescription("Adding to queue: `" + track.getInfo().title + "` by `" + track.getInfo().author + "`")
+                        .setFooter(defaultFooter);
 
                 channel.sendMessageEmbeds(trackLoaded.build()).queue();
             }
@@ -72,10 +71,10 @@ public class PlayerManager {
                 final List<AudioTrack> tracks = playlist.getTracks();
 
                 EmbedBuilder playlistLoaded = new EmbedBuilder();
-                playlistLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-                playlistLoaded.setTitle(defaultTitle);
-                playlistLoaded.setDescription("Adding to queue: `" + String.valueOf(tracks.size()) + "` tracks from playlist `" + playlist.getName());
-                playlistLoaded.setFooter(defaultFooter);
+                playlistLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                        .setTitle(defaultTitle)
+                        .setDescription("Adding to queue: `" + tracks.size() + "` tracks from playlist `" + playlist.getName())
+                        .setFooter(defaultFooter);
 
                 channel.sendMessageEmbeds(playlistLoaded.build()).queue();
             }
