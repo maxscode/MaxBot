@@ -1,7 +1,7 @@
 package com.gmail.maxarmour2.maxbot.commands.management.moderation;
 
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
-import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
+import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
-public class BanCommand implements ICommand {
+public class BanCommand implements Command {
     @Override
     public void handle(CommandContext ctx) {
 

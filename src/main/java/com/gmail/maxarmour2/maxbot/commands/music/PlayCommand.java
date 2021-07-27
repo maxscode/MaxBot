@@ -1,7 +1,8 @@
 package com.gmail.maxarmour2.maxbot.commands.music;
 
-import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
+import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
+import com.gmail.maxarmour2.maxbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -9,8 +10,9 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-    @SuppressWarnings("ConstantConditions")
-public class JoinCommand implements Command {
+@SuppressWarnings("ConstantConditions")
+public class PlayCommand implements Command {
+
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -22,17 +24,6 @@ public class JoinCommand implements Command {
         String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Music Command";
         String defaultFooter = "MaxBot Music Player";
-
-        if (selfVoiceState.inVoiceChannel()) {
-            EmbedBuilder alreadyConnected = new EmbedBuilder();
-            alreadyConnected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            alreadyConnected.setTitle(defaultTitle);
-            alreadyConnected.setDescription("I am already connected to a voice channel.");
-            alreadyConnected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(alreadyConnected.build()).queue();
-            return;
-        }
 
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
@@ -51,28 +42,32 @@ public class JoinCommand implements Command {
         final AudioManager audioManager = ctx.getGuild().getAudioManager();
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
-        audioManager.openAudioConnection(memberChannel);
-        EmbedBuilder connected = new EmbedBuilder();
-        connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        connected.setTitle(defaultTitle);
-        connected.setDescription("Connecting to `" + memberChannel.getName() + "`");
-        connected.setFooter(defaultFooter);
+        if (!selfVoiceState.inVoiceChannel()) {
+            audioManager.openAudioConnection(memberChannel);
+            EmbedBuilder connected = new EmbedBuilder();
+            connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            connected.setTitle(defaultTitle);
+            connected.setDescription("Connecting to `" + memberChannel.getName() + "`");
+            connected.setFooter(defaultFooter);
 
-        channel.sendMessageEmbeds(connected.build()).queue();
+            channel.sendMessageEmbeds(connected.build()).queue();
+        }
+
+        PlayerManager.getInstance().loadAndPlay(channel, "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     }
 
     @Override
     public String getName() {
-        return "join";
+        return "play";
     }
 
     @Override
     public String getHelp() {
-        return "Makes the bot join your Voice Channel";
+        return "Adds a song to the queue";
     }
 
     @Override
     public String getUsage() {
-        return getName();
+        return getName() + " [URL/Name]";
     }
 }

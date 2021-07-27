@@ -2,7 +2,7 @@ package com.gmail.maxarmour2.maxbot.commands.management;
 
 import com.gmail.maxarmour2.maxbot.utils.CustomPrefix;
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
-import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
+import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import com.gmail.maxarmour2.maxbot.utils.database.SQLiteDataSource;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SetCustomPrefixCommand implements ICommand {
+public class SetCustomPrefixCommand implements Command {
     @Override
     public void handle(CommandContext ctx) {
 

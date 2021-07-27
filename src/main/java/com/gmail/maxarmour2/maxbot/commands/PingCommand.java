@@ -1,11 +1,11 @@
 package com.gmail.maxarmour2.maxbot.commands;
 
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
-import com.gmail.maxarmour2.maxbot.utils.cmd.ICommand;
+import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 
-public class PingCommand implements ICommand {
+public class PingCommand implements Command {
 
     @Override
     public void handle(CommandContext ctx) {

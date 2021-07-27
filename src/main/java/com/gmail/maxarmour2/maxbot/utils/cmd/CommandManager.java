@@ -5,6 +5,7 @@ import com.gmail.maxarmour2.maxbot.commands.management.*;
 import com.gmail.maxarmour2.maxbot.commands.management.moderation.*;
 
 import com.gmail.maxarmour2.maxbot.commands.music.JoinCommand;
+import com.gmail.maxarmour2.maxbot.commands.music.PlayCommand;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nullable;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class CommandManager {
 
-    private final List<ICommand> commands = new ArrayList<>();
+    private final List<Command> commands = new ArrayList<>();
 
     public CommandManager() {
         addCommand(new PingCommand());
@@ -23,6 +24,7 @@ public class CommandManager {
 
         // Music Commands
         addCommand(new JoinCommand());
+        addCommand(new PlayCommand());
 
         // Moderation Commands
         addCommand(new KickCommand());
@@ -32,7 +34,7 @@ public class CommandManager {
         addCommand(new SetCustomPrefixCommand());
     }
 
-    private void addCommand(ICommand cmd) {
+    private void addCommand(Command cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
         if (nameFound) {
@@ -42,15 +44,15 @@ public class CommandManager {
         commands.add(cmd);
     }
 
-    public List<ICommand> getCommands() {
+    public List<Command> getCommands() {
         return commands;
     }
 
     @Nullable
-    public ICommand getCommand(String search) {
+    public Command getCommand(String search) {
         String searchLower = search.toLowerCase();
 
-        for (ICommand cmd : this.commands) {
+        for (Command cmd : this.commands) {
             if (cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower)) {
                 return cmd;
             }
@@ -65,7 +67,7 @@ public class CommandManager {
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();
-        ICommand cmd = this.getCommand(invoke);
+        Command cmd = this.getCommand(invoke);
 
         if (cmd != null) {
             List<String> args = Arrays.asList(split).subList(1, split.length);
