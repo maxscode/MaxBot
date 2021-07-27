@@ -12,7 +12,7 @@ public class PingCommand implements ICommand {
 
         JDA api = ctx.getJDA();
 
-        //TODO Add REST ping
+        //TODO Add REST ping... somehow
         long gatePing = api.getGatewayPing();
 
         // Embed Defaults
