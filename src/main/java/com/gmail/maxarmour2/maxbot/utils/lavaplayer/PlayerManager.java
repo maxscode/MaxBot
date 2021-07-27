@@ -61,7 +61,7 @@ public class PlayerManager {
                 EmbedBuilder trackLoaded = new EmbedBuilder();
                 trackLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
                 trackLoaded.setTitle(defaultTitle);
-                trackLoaded.setDescription("Adding to queue: `" + track.getInfo().title + "` by `" + track.getInfo().author);
+                trackLoaded.setDescription("Adding to queue: `" + track.getInfo().title + "` by `" + track.getInfo().author + "`");
                 trackLoaded.setFooter(defaultFooter);
 
                 channel.sendMessageEmbeds(trackLoaded.build()).queue();
