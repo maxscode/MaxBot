@@ -1,5 +1,6 @@
 package com.gmail.maxarmour2.maxbot.commands.music;
 
+import com.gmail.maxarmour2.maxbot.utils.CustomPrefix;
 import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.lavaplayer.PlayerManager;
@@ -9,6 +10,9 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @SuppressWarnings("ConstantConditions")
 public class PlayCommand implements Command {
@@ -27,6 +31,19 @@ public class PlayCommand implements Command {
 
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
+
+        String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
+
+        if (ctx.getArgs().isEmpty()) {
+            EmbedBuilder missingArgs = new EmbedBuilder();
+            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
+            missingArgs.setTitle(defaultTitle);
+            missingArgs.setDescription("Missing Arguments\nUsage: `" + prefix + getUsage() + "`");
+            missingArgs.setFooter(defaultFooter);
+
+            channel.sendMessageEmbeds(missingArgs.build()).queue();
+            return;
+        }
 
         if (!memberVoiceState.inVoiceChannel()) {
             EmbedBuilder memberNotConnected = new EmbedBuilder();
@@ -53,7 +70,12 @@ public class PlayCommand implements Command {
             channel.sendMessageEmbeds(connected.build()).queue();
         }
 
-        PlayerManager.getInstance().loadAndPlay(channel, "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        String query = String.join(" ", ctx.getArgs());
+        if (!isUrl(query)) {
+            query = "ytsearch:" + query;
+        }
+
+        PlayerManager.getInstance().loadAndPlay(channel, query, ctx);
     }
 
     @Override
@@ -63,11 +85,21 @@ public class PlayCommand implements Command {
 
     @Override
     public String getHelp() {
-        return "Adds a song to the queue";
+        return "Adds a song to the queue.";
     }
 
     @Override
     public String getUsage() {
-        return getName() + " [URL/Name]";
+        return getName() + " [URL/Search]";
+    }
+
+    private boolean isUrl(String url) {
+        try {
+            new URI(url);
+            return true;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
