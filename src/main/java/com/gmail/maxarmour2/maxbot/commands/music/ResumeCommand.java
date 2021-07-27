@@ -4,6 +4,7 @@ import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.lavaplayer.GuildMusicManager;
 import com.gmail.maxarmour2.maxbot.utils.lavaplayer.PlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -19,36 +20,31 @@ public class ResumeCommand implements Command {
         final Member selfMember = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
-        // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
-        String defaultTitle = "Music Command";
-        String defaultFooter = "MaxBot Music Player";
-
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if (!memberVoiceState.inVoiceChannel() || !memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-            EmbedBuilder memberNotConnected = new EmbedBuilder();
-            memberNotConnected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            memberNotConnected.setTitle(defaultTitle);
-            memberNotConnected.setDescription("You must be connected to my current voice channel to invoke this command");
-            memberNotConnected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(memberNotConnected.build()).queue();
+            channel.sendMessage("You must be connected to my current voice channel to invoke this command").queue();
             return;
         }
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
+        final AudioPlayer audioPlayer = musicManager.audioPlayer;
+
+        if (audioPlayer.getPlayingTrack() == null) {
+            channel.sendMessage("Nothing is playing right now").queue();
+            return;
+        }
+        if (!musicManager.scheduler.player.isPaused()) {
+            channel.sendMessage("The music player isn't paused.").queue();
+            return;
+        }
         musicManager.scheduler.player.setPaused(false);
+        channel.sendMessage("The music player was resumed.").queue();
 
-        EmbedBuilder playerResumed = new EmbedBuilder();
-        playerResumed.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
-                .setTitle(defaultTitle)
-                .setDescription("The music player was resumed.")
-                .setFooter(defaultFooter);
 
-        channel.sendMessageEmbeds(playerResumed.build()).queue();
+
+
     }
 
     @Override

@@ -24,13 +24,7 @@ public class JoinCommand implements Command {
         String defaultFooter = "MaxBot Music Player";
 
         if (selfVoiceState.inVoiceChannel()) {
-            EmbedBuilder alreadyConnected = new EmbedBuilder();
-            alreadyConnected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            alreadyConnected.setTitle(defaultTitle);
-            alreadyConnected.setDescription("I am already connected to a voice channel.");
-            alreadyConnected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(alreadyConnected.build()).queue();
+            channel.sendMessage("I am already connected to a voice channel.").queue();
             return;
         }
 
@@ -38,13 +32,7 @@ public class JoinCommand implements Command {
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if (!memberVoiceState.inVoiceChannel()) {
-            EmbedBuilder memberNotConnected = new EmbedBuilder();
-            memberNotConnected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            memberNotConnected.setTitle(defaultTitle);
-            memberNotConnected.setDescription("You must be connected to a voice channel to invoke this command");
-            memberNotConnected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(memberNotConnected.build()).queue();
+            channel.sendMessage("You must be connected to a voice channel to invoke this command").queue();
             return;
         }
 

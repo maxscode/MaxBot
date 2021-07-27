@@ -27,6 +27,7 @@ public class CommandManager {
         addCommand(new StopCommand());
         addCommand(new PauseCommand());
         addCommand(new ResumeCommand());
+        addCommand(new SkipCommand());
 
         // Moderation Commands
         addCommand(new KickCommand());

@@ -23,36 +23,18 @@ public class PlayCommand implements Command {
         final Member selfMember = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
-        // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
-        String defaultTitle = "Music Command";
-        String defaultFooter = "MaxBot Music Player";
-
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
         if (ctx.getArgs().isEmpty()) {
-            EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            missingArgs.setTitle(defaultTitle);
-            missingArgs.setDescription("Missing Arguments\nUsage: `" + prefix + getUsage() + "`");
-            missingArgs.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(missingArgs.build()).queue();
+            channel.sendMessage("Missing Arguments\nUsage: `" + prefix + getUsage() + "`").queue();
             return;
         }
 
         if (!memberVoiceState.inVoiceChannel()) {
-            EmbedBuilder memberNotConnected = new EmbedBuilder();
-            memberNotConnected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            memberNotConnected.setTitle(defaultTitle);
-            memberNotConnected.setDescription("You must be connected to a voice channel to invoke this command");
-            memberNotConnected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(memberNotConnected.build()).queue();
+            channel.sendMessage("You must be connected to a voice channel to invoke this command").queue();
             return;
         }
 
@@ -61,13 +43,7 @@ public class PlayCommand implements Command {
 
         if (!selfVoiceState.inVoiceChannel()) {
             audioManager.openAudioConnection(memberChannel);
-            EmbedBuilder connected = new EmbedBuilder();
-            connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            connected.setTitle(defaultTitle);
-            connected.setDescription("Connecting to `" + memberChannel.getName() + "`");
-            connected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(connected.build()).queue();
+            channel.sendMessage("Connecting to `" + memberChannel.getName() + "`").queue();
         }
 
         String query = String.join(" ", ctx.getArgs());

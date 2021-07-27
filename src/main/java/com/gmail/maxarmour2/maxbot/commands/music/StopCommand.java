@@ -19,23 +19,11 @@ public class StopCommand implements Command {
         final Member selfMember = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
-        // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
-        String defaultTitle = "Music Command";
-        String defaultFooter = "MaxBot Music Player";
-
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if (!memberVoiceState.inVoiceChannel() || !memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-            EmbedBuilder memberNotConnected = new EmbedBuilder();
-            memberNotConnected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            memberNotConnected.setTitle(defaultTitle);
-            memberNotConnected.setDescription("You must be connected to my current voice channel to invoke this command");
-            memberNotConnected.setFooter(defaultFooter);
-
-            channel.sendMessageEmbeds(memberNotConnected.build()).queue();
+            channel.sendMessage("You must be connected to my current voice channel to invoke this command").queue();
             return;
         }
 
@@ -44,13 +32,7 @@ public class StopCommand implements Command {
         musicManager.scheduler.player.stopTrack();
         musicManager.scheduler.queue.clear();
 
-        EmbedBuilder playerStopped = new EmbedBuilder();
-        playerStopped.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        playerStopped.setTitle(defaultTitle);
-        playerStopped.setDescription("The music player was stopped and the queue was cleared.");
-        playerStopped.setFooter(defaultFooter);
-
-        channel.sendMessageEmbeds(playerStopped.build()).queue();
+        channel.sendMessage("The music player was stopped and the queue was cleared.").queue();
     }
 
     @Override
