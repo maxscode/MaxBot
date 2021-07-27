@@ -40,6 +40,7 @@ public class JoinCommand implements Command {
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
         audioManager.openAudioConnection(memberChannel);
+        audioManager.setSelfDeafened(true);
         EmbedBuilder connected = new EmbedBuilder();
         connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
         connected.setTitle(defaultTitle);

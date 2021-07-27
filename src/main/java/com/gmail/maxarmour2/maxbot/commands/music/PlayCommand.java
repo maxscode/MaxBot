@@ -43,6 +43,7 @@ public class PlayCommand implements Command {
 
         if (!selfVoiceState.inVoiceChannel()) {
             audioManager.openAudioConnection(memberChannel);
+            audioManager.setSelfDeafened(true);
             channel.sendMessage("Connecting to `" + memberChannel.getName() + "`").queue();
         }
 
