@@ -75,7 +75,6 @@ public class PlayCommand implements Command {
             new URI(url);
             return true;
         } catch (URISyntaxException e) {
-            e.printStackTrace();
             return false;
         }
     }

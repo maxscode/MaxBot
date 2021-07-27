@@ -70,13 +70,32 @@ public class PlayerManager {
             public void playlistLoaded(AudioPlaylist playlist) {
                 final List<AudioTrack> tracks = playlist.getTracks();
 
-                EmbedBuilder playlistLoaded = new EmbedBuilder();
-                playlistLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
-                        .setTitle(defaultTitle)
-                        .setDescription("Adding to queue: `" + tracks.size() + "` tracks from playlist `" + playlist.getName())
-                        .setFooter(defaultFooter);
+                if (isUrl(trackUrl)) {
+                    for (final AudioTrack track : tracks) {
+                        musicManager.scheduler.queue(track);
+                    }
+                    EmbedBuilder playlistLoaded = new EmbedBuilder();
+                    playlistLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                            .setTitle(defaultTitle)
+                            .setDescription("Adding to queue: `" + tracks.size() + "` tracks from playlist `" + playlist.getName())
+                            .setFooter(defaultFooter);
 
-                channel.sendMessageEmbeds(playlistLoaded.build()).queue();
+                    channel.sendMessageEmbeds(playlistLoaded.build()).queue();
+                    return;
+                }
+
+                if (!isUrl(trackUrl)) {
+                    final AudioTrack audioTrack = playlist.getTracks().get(0);
+                    musicManager.scheduler.queue(audioTrack);
+
+                    EmbedBuilder trackLoaded = new EmbedBuilder();
+                    trackLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                            .setTitle(defaultTitle)
+                            .setDescription("Adding to queue: `" + audioTrack.getInfo().title + "` by `" + audioTrack.getInfo().author + "`")
+                            .setFooter(defaultFooter);
+
+                    channel.sendMessageEmbeds(trackLoaded.build()).queue();
+                }
             }
 
             @Override
@@ -104,7 +123,7 @@ public class PlayerManager {
             new URI(url);
             return true;
         } catch (URISyntaxException e) {
-            e.printStackTrace();
             return false;
         }
-    }}
+    }
+}
