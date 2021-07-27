@@ -19,21 +19,27 @@ import java.util.Scanner;
 public class MaxBot {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MaxBot.class);
+    private static JDA jda;
 
-    public static void main(String[] args) throws LoginException, SQLException {
-        SQLiteDataSource.getConnection();
-
-        JDA api = JDABuilder.createDefault(
-                Config.get("TOKEN"),
-                GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES)
-                .disableCache(
-                        CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY, CacheFlag.EMOTE)
-                .enableCache(CacheFlag.VOICE_STATE)
+    public MaxBot() throws LoginException, SQLException {
+        jda = JDABuilder
+                .create(Config.get("TOKEN"),
+                        GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS,
+                        GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_PRESENCES)
+                .disableCache(CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
+                .addEventListeners(new Listener())
                 .build();
 
-        api.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot Development"), false);
-        api.addEventListener(new Listener());
+        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot Development"));
 
+        SQLiteDataSource.getConnection();
+    }
+
+    public static void main(String[] args) throws SQLException, LoginException {
+        new MaxBot();
+
+
+        // Commands invoked in the console window
         Scanner consoleCommands = new Scanner(System.in);
         while (consoleCommands.hasNext()) {
 
@@ -42,8 +48,8 @@ public class MaxBot {
             if (scanned.equals("shutdown")) {
 
                 LOGGER.info("Shutting Down...");
-                api.shutdownNow();
-                BotCommons.shutdown(api);
+                jda.shutdownNow();
+                BotCommons.shutdown(jda);
                 System.exit(0);
 
             } else {
