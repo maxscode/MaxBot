@@ -15,13 +15,13 @@
 - Moved shutdown command to the console
 - Added Custom Prefixes
 
-0.1.4-alpha
+0.1.4-alpha - 23 July 2021
 - Implement a SQLite database for custom prefixes
 - Added MaxBot Git webhook in MaxBot Discord Server
 - Switch Syntax to Usage statement in help command
 - Implement Gateway intents in the Main class
 - Embeds now reference local string variables for titles, footers, etc
 
-0.1.5-alpha
-- Added Join Voice Channel Command
-- Implement LavaPlayer methods
+0.1.5-alpha - 29 July 2021
+- Added Music Commands
+- Implement LavaPlayer
