@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-    @SuppressWarnings("ConstantConditions")
+@SuppressWarnings("ConstantConditions")
 public class JoinCommand implements Command {
     @Override
     public void handle(CommandContext ctx) {
@@ -41,11 +41,12 @@ public class JoinCommand implements Command {
 
         audioManager.openAudioConnection(memberChannel);
         audioManager.setSelfDeafened(true);
+
         EmbedBuilder connected = new EmbedBuilder();
-        connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        connected.setTitle(defaultTitle);
-        connected.setDescription("Connecting to `" + memberChannel.getName() + "`");
-        connected.setFooter(defaultFooter);
+        connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                .setTitle(defaultTitle)
+                .setDescription("Connecting to `" + memberChannel.getName() + "`")
+                .setFooter(defaultFooter);
 
         channel.sendMessageEmbeds(connected.build()).queue();
     }

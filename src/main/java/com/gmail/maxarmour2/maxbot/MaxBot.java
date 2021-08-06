@@ -30,11 +30,12 @@ public class MaxBot {
                 .addEventListeners(new Listener())
                 .build();
 
-        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot Development"));
+        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot v0.1.6-alpha"));
 
         SQLiteDataSource.getConnection();
     }
 
+    @SuppressWarnings("InstantiationOfUtilityClass")
     public static void main(String[] args) throws SQLException, LoginException {
         new MaxBot();
 

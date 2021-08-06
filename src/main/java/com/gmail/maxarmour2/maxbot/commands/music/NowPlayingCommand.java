@@ -57,7 +57,9 @@ public class NowPlayingCommand implements Command {
         channel.sendMessageEmbeds(nowPlaying.build()).queue();
     }
 
+
     @Override
+    @SuppressWarnings("SpellCheckingInspection")
     public String getName() {
         return "nowplaying";
     }
