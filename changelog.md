@@ -26,7 +26,7 @@
 - Added Music Commands
 - Implement LavaPlayer
 
-# 0.1.6-alpha
+# 0.1.6-alpha - 10 August 2021
 - Simplified Embeds
 - Added mass ban option in the ban command
 - Added mass kick option in the kick command
