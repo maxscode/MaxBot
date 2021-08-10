@@ -20,12 +20,13 @@ public class BanCommand implements Command {
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
         final String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
+        final Member selfMember = ctx.getSelfMember();
 
         // Embed Defaults
         String defaultTitle = "Ban Command";
 
-        // Missing Arguments Message.
-        if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
+        // Checks if the member has correctly invoked the command
+        if (message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder()
                     .setTitle(defaultTitle)
                     .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
@@ -34,10 +35,8 @@ public class BanCommand implements Command {
             return;
         }
 
-        final Member targetMember = message.getMentionedMembers().get(1);
-
-        // Executed if the member who invokes this command does not have the permissions.
-        if (!member.canInteract(targetMember) || !member.hasPermission(Permission.BAN_MEMBERS)) {
+        // Checks if the member who invokes this command does not have the permissions.
+        if (!member.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder()
                     .setTitle(defaultTitle)
                     .setDescription("You do not have permission to invoke this command.\nRequired Permission: Ban Members");
@@ -46,16 +45,79 @@ public class BanCommand implements Command {
             return;
         }
 
-        final Member selfMember = ctx.getSelfMember();
-
-        // Executed if the bot does not have the permissions to execute the command.
-        if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.BAN_MEMBERS)) {
+        // Checks if the bot does not have the permissions to execute the command.
+        if (!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder()
                     .setTitle(defaultTitle)
                     .setDescription("I do not have permission to execute this command.\nRequired Permission: Ban Members");
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
+        }
+
+        // Checks if the user has requested a ban of more than one member with a "-m" argument
+        if (args.get(0).equals("-m")) {
+            List<Member> targetMembers = message.getMentionedMembers();
+
+            for (Member targetMember : targetMembers) {
+
+                if (!member.canInteract(targetMember)) {
+                    EmbedBuilder targetAboveMember = new EmbedBuilder()
+                            .setTitle(defaultTitle)
+                            .setDescription("The member `" + targetMember.getAsMention() + "` is above you in the hierarchy and was skipped");
+
+                    channel.sendMessageEmbeds(targetAboveMember.build()).queue();
+                    continue;
+                }
+
+                if (!selfMember.canInteract(targetMember)) {
+                    EmbedBuilder targetAboveBot = new EmbedBuilder()
+                            .setTitle(defaultTitle)
+                            .setDescription("The member  `" + targetMember.getAsMention() + "`  is above me in the hierarchy and was skipped.");
+
+                    channel.sendMessageEmbeds(targetAboveBot.build()).queue();
+                    continue;
+                }
+
+                // Ban successful
+                EmbedBuilder success = new EmbedBuilder()
+                        .setTitle(defaultTitle)
+                        .setDescription(targetMember.getAsMention() + " was banned.");
+
+                //  Ban Unsuccessful
+                EmbedBuilder failure = new EmbedBuilder()
+                        .setTitle(defaultTitle)
+                        .setDescription("Ban failed.");
+
+                ctx.getGuild().ban(targetMember, 0).queue(
+                        (__) -> channel.sendMessageEmbeds(success.build()).queue(),
+                        (error) -> channel.sendMessageEmbeds(failure.build()).queue()
+                );
+            }
+            return; // Returns as the mass ban has been completed. No further tasks required.
+        }
+
+
+        // Executed if only one member is targeted for a ban
+
+        final Member targetMember = message.getMentionedMembers().get(1);
+
+        // Checks if the Member has the ability to interact with the targeted member
+        if (!member.canInteract(targetMember)) {
+            EmbedBuilder targetAboveMember = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("The target member is above you in the hierarchy");
+
+            channel.sendMessageEmbeds(targetAboveMember.build()).queue();
+        }
+
+        // Checks if the bot has the ability to interact with the targeted member
+        if (!selfMember.canInteract(targetMember)) {
+            EmbedBuilder targetAboveBot = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("The target member is above me in the hierarchy");
+
+            channel.sendMessageEmbeds(targetAboveBot.build()).queue();
         }
 
         final String reasonForBan = String.join(" ", args.subList(1, args.size()));
@@ -83,11 +145,12 @@ public class BanCommand implements Command {
 
     @Override
     public String getHelp() {
-        return "Bans the target player from the server";
+        return "Bans the target member from the server";
     }
 
     @Override
     public String getUsage() {
-        return getName() + " [user] [reason]";
+        return getName() + " [user] [reason]\n" +
+                "OR " + getName() + " -m [user1] [user2]";
     }
 }

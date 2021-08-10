@@ -25,3 +25,7 @@
 # 0.1.5-alpha - 29 July 2021
 - Added Music Commands
 - Implement LavaPlayer
+
+# 0.1.6-alpha
+- Simplified Embeds
+- Added mass ban option in the ban command
