@@ -11,8 +11,4 @@ public interface Command {
     String getHelp();
 
     String getUsage();
-
-    default List<String> getAliases() {
-        return List.of();
-    }
 }
