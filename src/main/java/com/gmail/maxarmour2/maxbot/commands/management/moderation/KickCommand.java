@@ -11,6 +11,11 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
+/**
+ * A command that kicks a specific member from a guild
+ * @author Max Armour
+ * @since 0.1.2-alpha
+ */
 public class KickCommand implements Command {
 
     @Override

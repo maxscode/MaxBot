@@ -13,6 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * A command that alters the custom prefix for a guild, and saves it to a database for further reference.
+ * @author Max Armour
+ * @since 0.1.3-alpha
+ */
 public class SetCustomPrefixCommand implements Command {
     @Override
     public void handle(CommandContext ctx) {

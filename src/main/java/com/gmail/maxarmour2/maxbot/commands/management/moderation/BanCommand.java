@@ -11,6 +11,11 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
+/**
+ * A command that bans a specific member or set of members from a guild.
+ * @author Max Armour
+ * @since 0.1.2-alpha
+ */
 public class BanCommand implements Command {
     @Override
     public void handle(CommandContext ctx) {

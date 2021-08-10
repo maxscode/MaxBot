@@ -12,6 +12,11 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+/**
+ * A command that toggles whether the music player will repeat the currently playing track.
+ * @author Max Armour
+ * @since 0.1.5-alpha
+ */
 @SuppressWarnings("ConstantConditions")
 public class RepeatCommand implements Command {
     @Override
@@ -38,7 +43,6 @@ public class RepeatCommand implements Command {
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
         final boolean repeating = !musicManager.scheduler.repeatEnabled;
-
         musicManager.scheduler.repeatEnabled = repeating;
 
         final AudioPlayer audioPlayer = musicManager.audioPlayer;

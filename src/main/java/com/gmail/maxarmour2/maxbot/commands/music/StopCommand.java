@@ -9,6 +9,11 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+/**
+ * A command that stops the currently playing track and clears the queue.
+ * @author Max Armour
+ * @since 0.1.5-alpha
+ */
 @SuppressWarnings("ConstantConditions")
 public class StopCommand implements Command {
 

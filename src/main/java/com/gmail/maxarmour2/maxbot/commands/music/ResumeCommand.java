@@ -10,6 +10,11 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+/**
+ * A command that resumes the currently playing track if it is paused.
+ * @author Max Armour
+ * @since 0.1.5-alpha
+ */
 @SuppressWarnings("ConstantConditions")
 public class ResumeCommand implements Command {
 

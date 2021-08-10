@@ -5,6 +5,12 @@ import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 
+/**
+ * Outputs the current Gateway ping to the members text channel.
+ * TODO: 10-08-2021  Add REST ping to the output.
+ * @author Max Armour
+ * @since 0.1.1-alpha
+ */
 public class PingCommand implements Command {
 
     @Override
@@ -12,7 +18,6 @@ public class PingCommand implements Command {
 
         JDA api = ctx.getJDA();
 
-        //TODO Add REST ping... somehow
         long gatePing = api.getGatewayPing();
 
         // Embed Defaults

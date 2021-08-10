@@ -29,3 +29,5 @@
 # 0.1.6-alpha
 - Simplified Embeds
 - Added mass ban option in the ban command
+- Added JavaDocs to Commands and Command Interface
+- Removed getAliases() method from Command interface

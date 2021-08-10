@@ -10,6 +10,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
+/**
+ * Outputs a list of commands to the members text channel accompanied by their descriptions.
+ * Also provides more detailed information about specific commands when requested by the user.
+ * @author Max Armour
+ * @since 0.1.2-alpha
+ */
 public class HelpCommand implements Command {
 
     private final CommandManager manager;

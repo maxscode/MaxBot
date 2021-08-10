@@ -12,6 +12,11 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+/**
+ * A command that outputs the currently playing track to the text channel.
+ * @author Max Armour
+ * @since 0.1.5-alpha
+ */
 @SuppressWarnings("ConstantConditions")
 public class NowPlayingCommand implements Command {
 

@@ -14,6 +14,12 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * A command that adds a track or playlist of tracks to the queue
+ * and calls the bot to the members voice channel if not already connected.
+ * @author Max Armour
+ * @since 0.1.5-alpha
+ */
 @SuppressWarnings("ConstantConditions")
 public class PlayCommand implements Command {
 
@@ -85,6 +91,11 @@ public class PlayCommand implements Command {
         return getName() + " [URL/Search]";
     }
 
+    /**
+     * Checks if a string conforms to a URL syntax.
+     * @param url The String being tested
+     * @return {@code true} if the param is a URL, otherwise false
+     */
     private boolean isUrl(String url) {
         try {
             new URI(url);
