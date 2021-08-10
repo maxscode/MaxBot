@@ -7,12 +7,12 @@ import net.dv8tion.jda.api.JDA;
 
 /**
  * Outputs the current Gateway ping to the members text channel.
- * TODO: 10-08-2021  Add REST ping to the output.
  * @author Max Armour
  * @since 0.1.1-alpha
  */
 public class PingCommand implements Command {
 
+    // TODO: 10-08-2021  Add REST ping to the output.
     @Override
     public void handle(CommandContext ctx) {
 
@@ -46,13 +46,13 @@ public class PingCommand implements Command {
     }
 
     @Override
-    public String getHelp() {
-        return "Shows the current ping";
+    public String getName() {
+        return "ping";
     }
 
     @Override
-    public String getName() {
-        return "ping";
+    public String getHelp() {
+        return "Shows the current ping";
     }
 
     @Override
