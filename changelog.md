@@ -32,3 +32,6 @@
 - Added mass kick option in the kick command
 - Added JavaDocs to Commands and Command Interface
 - Removed getAliases() method from Command interface
+
+# 1.0.1 - 10 August 2021
+- Release
