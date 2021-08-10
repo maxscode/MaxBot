@@ -36,20 +36,17 @@ public class HelpCommand implements Command {
                 (it) -> usages.append(it).append("\n"));
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Help Command";
         String defaultFooter = "MaxBot Command Manager";
 
 
         if (args.isEmpty()) {
 
-            EmbedBuilder output = new EmbedBuilder();
-            output.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            output.setTitle(defaultTitle);
-            output.addField("Command", commands.toString(), true);
-            output.addField("Usage", usages.toString(), true);
-            output.setFooter("Use "+ prefix + "help [command] for more information\n" + defaultFooter);
+            EmbedBuilder output = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .addField("Command", commands.toString(), true)
+                    .addField("Usage", usages.toString(), true)
+                    .setFooter("Use "+ prefix + "help [command] for more information\n" + defaultFooter);
 
             channel.sendMessageEmbeds(output.build()).queue();
             return;
@@ -62,11 +59,10 @@ public class HelpCommand implements Command {
             channel.sendMessage("Command `" + search + "` does not exist").queue();
             return;
         }
-        EmbedBuilder usageInfo = new EmbedBuilder();
-        usageInfo.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        usageInfo.setTitle(defaultTitle);
-        usageInfo.setDescription(command.getHelp() + "\n" + "Usage: `" + prefix +  command.getUsage() + "`");
-        usageInfo.setFooter(defaultFooter);
+        EmbedBuilder usageInfo = new EmbedBuilder()
+                .setTitle(defaultTitle)
+                .setDescription(command.getHelp() + "\n" + "Usage: `" + prefix +  command.getUsage() + "`")
+                .setFooter(defaultFooter);
 
         channel.sendMessageEmbeds(usageInfo.build()).queue();
     }

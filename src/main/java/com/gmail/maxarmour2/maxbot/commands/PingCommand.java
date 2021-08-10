@@ -16,12 +16,9 @@ public class PingCommand implements Command {
         long gatePing = api.getGatewayPing();
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "MaxBot Ping";
 
         EmbedBuilder output = new EmbedBuilder();
-        output.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
         output.setTitle(defaultTitle);
         output.setDescription("Gateway Ping: `" + gatePing + " ms`");
 

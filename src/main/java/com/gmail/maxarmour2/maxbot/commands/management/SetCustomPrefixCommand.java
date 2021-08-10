@@ -23,28 +23,21 @@ public class SetCustomPrefixCommand implements Command {
         String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Set Prefix Command";
-        String defaultFooter = "TIP: The default prefix is 'm.'\nMaxBot Server Management";
 
         if (args.isEmpty()) {
-            EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            missingArgs.setTitle(defaultTitle);
-            missingArgs.setDescription("Missing Args\nUsage: `" + prefix + getUsage() + "`");
-            missingArgs.setFooter(defaultFooter);
+            EmbedBuilder missingArgs = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Missing Args\nUsage: `" + prefix + getUsage() + "`");
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
         }
 
         if (!member.hasPermission(Permission.MANAGE_SERVER)) {
-            EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            noUserPerms.setTitle(defaultTitle);
-            noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Manage Server");
-            noUserPerms.setFooter(defaultFooter);
+            EmbedBuilder noUserPerms = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You do not have permission to invoke this command.\nRequired Permission: Manage Server");
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -53,11 +46,9 @@ public class SetCustomPrefixCommand implements Command {
         final String newPrefix = String.join("", args);
         updatePrefix(ctx.getGuild().getIdLong(), newPrefix);
 
-        EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        success.setTitle(defaultTitle);
-        success.setDescription("Prefix has been modified to `" + newPrefix + "`");
-        success.setFooter(defaultFooter);
+        EmbedBuilder success = new EmbedBuilder()
+                .setTitle(defaultTitle)
+                .setDescription("Prefix has been modified to `" + newPrefix + "`");
 
         channel.sendMessageEmbeds(success.build()).queue();
     }

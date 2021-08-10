@@ -18,13 +18,14 @@ public class JoinCommand implements Command {
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Music Command";
-        String defaultFooter = "MaxBot Music Player";
 
         if (selfVoiceState.inVoiceChannel()) {
-            channel.sendMessage("I am already connected to a voice channel.").queue();
+            EmbedBuilder alreadyConnected = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("I am already connected to a voice channel.");
+
+            channel.sendMessageEmbeds(alreadyConnected.build()).queue();
             return;
         }
 
@@ -32,7 +33,11 @@ public class JoinCommand implements Command {
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if (!memberVoiceState.inVoiceChannel()) {
-            channel.sendMessage("You must be connected to a voice channel to invoke this command").queue();
+            EmbedBuilder memberNotConnected = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You must be connected to a voice channel to invoke this command");
+
+            channel.sendMessageEmbeds(memberNotConnected.build()).queue();
             return;
         }
 
@@ -42,11 +47,9 @@ public class JoinCommand implements Command {
         audioManager.openAudioConnection(memberChannel);
         audioManager.setSelfDeafened(true);
 
-        EmbedBuilder connected = new EmbedBuilder();
-        connected.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+        EmbedBuilder connected = new EmbedBuilder()
                 .setTitle(defaultTitle)
-                .setDescription("Connecting to `" + memberChannel.getName() + "`")
-                .setFooter(defaultFooter);
+                .setDescription("Connecting to `" + memberChannel.getName() + "`");
 
         channel.sendMessageEmbeds(connected.build()).queue();
     }

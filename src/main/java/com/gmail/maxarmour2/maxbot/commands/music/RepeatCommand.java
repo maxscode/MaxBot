@@ -7,6 +7,7 @@ import com.gmail.maxarmour2.maxbot.utils.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -23,8 +24,15 @@ public class RepeatCommand implements Command {
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
+        // Embed Defaults
+        String defaultTitle = "Music Command";
+
         if (!memberVoiceState.inVoiceChannel() || !memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-            channel.sendMessage("You must be connected to my current voice channel to invoke this command").queue();
+            EmbedBuilder noConnectionToVC = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You must be connected to my current voice channel to invoke this command");
+
+            channel.sendMessageEmbeds(noConnectionToVC.build()).queue();
             return;
         }
 
@@ -38,9 +46,18 @@ public class RepeatCommand implements Command {
         final AudioTrackInfo info = playingTrack.getInfo();
 
         if (repeating) {
-            channel.sendMessage("Repeating: `" + info.title + "` by `" + info.author + "`").queue();
+            EmbedBuilder repeatOn = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Repeating: `" + info.title + "` by `" + info.author + "`");
+
+            channel.sendMessageEmbeds(repeatOn.build()).queue();
         } else {
-            channel.sendMessage("Repeating disabled").queue();
+
+            EmbedBuilder repeatOff = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Repeating disabled");
+
+            channel.sendMessageEmbeds(repeatOff.build()).queue();
         }
     }
 

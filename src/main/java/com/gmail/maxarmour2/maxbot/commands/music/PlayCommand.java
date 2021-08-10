@@ -4,6 +4,7 @@ import com.gmail.maxarmour2.maxbot.utils.CustomPrefix;
 import com.gmail.maxarmour2.maxbot.utils.cmd.Command;
 import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.lavaplayer.PlayerManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -24,16 +25,26 @@ public class PlayCommand implements Command {
 
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
+        final String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
-        String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
+        // Embed Defaults
+        String defaultTitle = "Music Command";
 
         if (ctx.getArgs().isEmpty()) {
-            channel.sendMessage("Missing Arguments\nUsage: `" + prefix + getUsage() + "`").queue();
+            EmbedBuilder missingArgs = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Missing Arguments\nUsage: `" + prefix + getUsage() + "`");
+
+            channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
         }
 
         if (!memberVoiceState.inVoiceChannel()) {
-            channel.sendMessage("You must be connected to a voice channel to invoke this command").queue();
+            EmbedBuilder notConnectedToVC = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You must be connected to a voice channel to invoke this command");
+
+            channel.sendMessageEmbeds(notConnectedToVC.build()).queue();
             return;
         }
 
@@ -43,7 +54,12 @@ public class PlayCommand implements Command {
         if (!selfVoiceState.inVoiceChannel()) {
             audioManager.openAudioConnection(memberChannel);
             audioManager.setSelfDeafened(true);
-            channel.sendMessage("Connecting to `" + memberChannel.getName() + "`").queue();
+
+            EmbedBuilder connecting = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Connecting to `" + memberChannel.getName() + "`");
+
+            channel.sendMessageEmbeds(connecting.build()).queue();
         }
 
         String query = String.join(" ", ctx.getArgs());
@@ -51,7 +67,7 @@ public class PlayCommand implements Command {
             query = "ytsearch:" + query;
         }
 
-        PlayerManager.getInstance().loadAndPlay(channel, query, ctx);
+        PlayerManager.getInstance().loadAndPlay(channel, query);
     }
 
     @Override

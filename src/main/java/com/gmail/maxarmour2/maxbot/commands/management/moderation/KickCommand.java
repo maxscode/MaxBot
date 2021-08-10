@@ -22,18 +22,13 @@ public class KickCommand implements Command {
         final String prefix = CustomPrefix.PREFIXES.get(ctx.getGuild().getIdLong());
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Kick Command";
-        String defaultFooter = "MaxBot Server Management";
 
         // Missing Arguments Message.
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
-            EmbedBuilder missingArgs = new EmbedBuilder();
-            missingArgs.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            missingArgs.setTitle(defaultTitle);
-            missingArgs.setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
-            missingArgs.setFooter(defaultFooter);
+            EmbedBuilder missingArgs = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -43,11 +38,9 @@ public class KickCommand implements Command {
 
         // Executed if the member who invokes this command does not have the permissions.
         if (!member.canInteract(targetMember) || !member.hasPermission(Permission.KICK_MEMBERS)) {
-            EmbedBuilder noUserPerms = new EmbedBuilder();
-            noUserPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            noUserPerms.setTitle(defaultTitle);
-            noUserPerms.setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members");
-            noUserPerms.setFooter(defaultFooter);
+            EmbedBuilder noUserPerms = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members");
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -57,11 +50,9 @@ public class KickCommand implements Command {
 
         // Executed if the bot does not have the permissions to execute the command.
         if (!selfMember.canInteract(targetMember) || !selfMember.hasPermission(Permission.KICK_MEMBERS)) {
-            EmbedBuilder noBotPerms = new EmbedBuilder();
-            noBotPerms.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-            noBotPerms.setTitle(defaultTitle);
-            noBotPerms.setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members");
-            noBotPerms.setFooter(defaultFooter);
+            EmbedBuilder noBotPerms = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members");
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
@@ -70,24 +61,19 @@ public class KickCommand implements Command {
         final String reasonForKick = String.join(" ", args.subList(1, args.size()));
 
         // Kick successful
-        EmbedBuilder success = new EmbedBuilder();
-        success.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        success.setTitle(defaultTitle);
-        success.setDescription(targetMember.getAsMention() + " was kicked");
-        success.setFooter(defaultFooter);
+        EmbedBuilder success = new EmbedBuilder()
+                .setTitle(defaultTitle)
+                .setDescription(targetMember.getAsMention() + " was kicked");
 
         // Kick Unsuccessful
-        EmbedBuilder failure = new EmbedBuilder();
-        failure.setAuthor(defaultAuthor, null, defaultAuthorAvatar);
-        failure.setTitle(defaultTitle);
-        failure.setDescription("Kick unsuccessful.");
-        failure.setFooter(defaultFooter);
+        EmbedBuilder failure = new EmbedBuilder()
+                .setTitle(defaultTitle)
+                .setDescription("Kick unsuccessful.");
 
         ctx.getGuild().kick(targetMember, reasonForKick).reason(reasonForKick).queue(
                 (__) -> channel.sendMessageEmbeds(success.build()).queue(),
                 (error) -> channel.sendMessageEmbeds(failure.build()).queue()
         );
-
     }
 
     @Override

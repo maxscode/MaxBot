@@ -19,10 +19,7 @@ public class NowPlayingCommand implements Command {
     public void handle(CommandContext ctx) {
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Music Command";
-        String defaultFooter = "MaxBot Music Player";
 
         final TextChannel channel = ctx.getChannel();
         final Member selfMember = ctx.getSelfMember();
@@ -32,7 +29,11 @@ public class NowPlayingCommand implements Command {
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if (!memberVoiceState.inVoiceChannel() || !memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-            channel.sendMessage("You must be connected to my current voice channel to invoke this command").queue();
+            EmbedBuilder noConnectionToBot = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You must be connected to my current voice channel to invoke this command");
+
+            channel.sendMessageEmbeds(noConnectionToBot.build()).queue();
             return;
         }
 
@@ -41,19 +42,22 @@ public class NowPlayingCommand implements Command {
         final AudioTrack playingTrack = audioPlayer.getPlayingTrack();
 
         if (playingTrack == null) {
-            channel.sendMessage("There is nothing playing at the moment.").queue();
+            EmbedBuilder nothingPlaying = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("There is nothing playing at the moment");
+
+            channel.sendMessageEmbeds(nothingPlaying.build()).queue();
             return;
         }
 
         final AudioTrackInfo info = playingTrack.getInfo();
 
-        EmbedBuilder nowPlaying = new EmbedBuilder();
-        nowPlaying.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+        EmbedBuilder nowPlaying = new EmbedBuilder()
                 .setTitle(defaultTitle)
                 .setDescription("Now Playing:\n `" + info.title + " ` by `" + info.author + "`" +
                         "\n Link: " + info.uri + "" +
-                        "\nIn Voice Channel: `" + selfVoiceState.getChannel().getName() + "`")
-                .setFooter(defaultFooter);
+                        "\nIn Voice Channel: `" + selfVoiceState.getChannel().getName() + "`");
+
         channel.sendMessageEmbeds(nowPlaying.build()).queue();
     }
 

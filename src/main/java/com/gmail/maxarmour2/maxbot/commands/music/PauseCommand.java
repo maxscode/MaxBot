@@ -5,6 +5,7 @@ import com.gmail.maxarmour2.maxbot.utils.cmd.CommandContext;
 import com.gmail.maxarmour2.maxbot.utils.lavaplayer.GuildMusicManager;
 import com.gmail.maxarmour2.maxbot.utils.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -21,8 +22,15 @@ public class PauseCommand implements Command {
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
+        // Embed Defaults
+        String defaultTitle = "Music Command";
+
         if (!memberVoiceState.inVoiceChannel() || !memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-            channel.sendMessage("You must be connected to my current voice channel to invoke this command").queue();
+            EmbedBuilder noConnectionToVC = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("You must be connected to my current voice channel to invoke this command");
+
+            channel.sendMessageEmbeds(noConnectionToVC.build()).queue();
             return;
         }
 
@@ -30,15 +38,28 @@ public class PauseCommand implements Command {
         final AudioPlayer audioPlayer = musicManager.audioPlayer;
 
         if (audioPlayer.getPlayingTrack() == null) {
-            channel.sendMessage("Nothing is playing right now").queue();
+            EmbedBuilder nothingPlaying = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("Nothing is playing right now");
+
+            channel.sendMessageEmbeds(nothingPlaying.build()).queue();
             return;
         }
         if (musicManager.scheduler.player.isPaused()) {
-            channel.sendMessage("The music player is already paused.").queue();
+            EmbedBuilder alreadyPaused = new EmbedBuilder()
+                    .setTitle(defaultTitle)
+                    .setDescription("The music player is already paused");
+
+            channel.sendMessageEmbeds(alreadyPaused.build()).queue();
             return;
         }
+
         musicManager.scheduler.player.setPaused(true);
-        channel.sendMessage("The music player was paused.").queue();
+        EmbedBuilder paused = new EmbedBuilder()
+                .setTitle(defaultTitle)
+                .setDescription("The music player was paused");
+
+        channel.sendMessageEmbeds(paused.build()).queue();
     }
 
     @Override

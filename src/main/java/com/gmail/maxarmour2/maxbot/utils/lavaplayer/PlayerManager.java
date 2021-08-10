@@ -43,25 +43,22 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl, CommandContext ctx) {
+    public void loadAndPlay(TextChannel channel, String trackUrl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         // Embed Defaults
-        String defaultAuthor = ctx.getAuthor().getAsTag();
-        String defaultAuthorAvatar = ctx.getAuthor().getAvatarUrl();
         String defaultTitle = "Music Command";
-        String defaultFooter = "MaxBot Music Player";
+
 
         this.playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 musicManager.scheduler.queue(track);
 
-                EmbedBuilder trackLoaded = new EmbedBuilder();
-                trackLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                EmbedBuilder trackLoaded = new EmbedBuilder()
                         .setTitle(defaultTitle)
-                        .setDescription("Adding to queue: `" + track.getInfo().title + "` by `" + track.getInfo().author + "`")
-                        .setFooter(defaultFooter);
+                        .setDescription("Adding to queue: `" + track.getInfo().title + "` by `" + track.getInfo().author + "`");
+
 
                 channel.sendMessageEmbeds(trackLoaded.build()).queue();
             }
@@ -74,11 +71,9 @@ public class PlayerManager {
                     for (final AudioTrack track : tracks) {
                         musicManager.scheduler.queue(track);
                     }
-                    EmbedBuilder playlistLoaded = new EmbedBuilder();
-                    playlistLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                    EmbedBuilder playlistLoaded = new EmbedBuilder()
                             .setTitle(defaultTitle)
-                            .setDescription("Adding to queue: `" + tracks.size() + "` tracks from playlist `" + playlist.getName())
-                            .setFooter(defaultFooter);
+                            .setDescription("Adding to queue: `" + tracks.size() + "` tracks from playlist `" + playlist.getName());
 
                     channel.sendMessageEmbeds(playlistLoaded.build()).queue();
                     return;
@@ -88,11 +83,9 @@ public class PlayerManager {
                     final AudioTrack audioTrack = playlist.getTracks().get(0);
                     musicManager.scheduler.queue(audioTrack);
 
-                    EmbedBuilder trackLoaded = new EmbedBuilder();
-                    trackLoaded.setAuthor(defaultAuthor, null, defaultAuthorAvatar)
+                    EmbedBuilder trackLoaded = new EmbedBuilder()
                             .setTitle(defaultTitle)
-                            .setDescription("Adding to queue: `" + audioTrack.getInfo().title + "` by `" + audioTrack.getInfo().author + "`")
-                            .setFooter(defaultFooter);
+                            .setDescription("Adding to queue: `" + audioTrack.getInfo().title + "` by `" + audioTrack.getInfo().author + "`");
 
                     channel.sendMessageEmbeds(trackLoaded.build()).queue();
                 }
