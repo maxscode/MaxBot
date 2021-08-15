@@ -29,22 +29,26 @@ public class BanCommand implements Command {
 
         // Embed Defaults
         String defaultTitle = "Ban Command";
+        String defaultFooter = "TIP: Mention multiple members in the users argument to perform a mass ban.";
 
         // Checks if the member has correctly invoked the command
         if (message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
+                    .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`")
+                    .setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
         }
 
+
         // Checks if the member who invokes this command does not have the permissions.
         if (!member.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("You do not have permission to invoke this command.\nRequired Permission: Ban Members");
+                    .setDescription("You do not have permission to invoke this command.\nRequired Permission: Ban Members")
+                    .setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -54,15 +58,18 @@ public class BanCommand implements Command {
         if (!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("I do not have permission to execute this command.\nRequired Permission: Ban Members");
+                    .setDescription("I do not have permission to execute this command.\nRequired Permission: Ban Members")
+                    .setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
         }
 
-        // Checks if the user has requested a ban of more than one member with a "-m" argument
-        if (args.get(0).equals("-m")) {
-            List<Member> targetMembers = message.getMentionedMembers();
+        // Checks if the user has requested a ban of more than one member argument
+        if (message.getMentionedMembers().size() > 1) {
+
+            final List<Member> targetMembers = message.getMentionedMembers();
+            final String reasonForBan = args.get(args.size() - 1);
 
             for (Member targetMember : targetMembers) {
 
@@ -94,7 +101,7 @@ public class BanCommand implements Command {
                         .setTitle(defaultTitle)
                         .setDescription("Ban failed.");
 
-                ctx.getGuild().ban(targetMember, 0).queue(
+                ctx.getGuild().ban(targetMember, 0, reasonForBan).reason(reasonForBan).queue(
                         (__) -> channel.sendMessageEmbeds(success.build()).queue(),
                         (error) -> channel.sendMessageEmbeds(failure.build()).queue()
                 );
@@ -104,7 +111,6 @@ public class BanCommand implements Command {
 
 
         // Executed if only one member is targeted for a ban
-
         final Member targetMember = message.getMentionedMembers().get(1);
 
         // Checks if the Member has the ability to interact with the targeted member
@@ -155,7 +161,6 @@ public class BanCommand implements Command {
 
     @Override
     public String getUsage() {
-        return getName() + " [user] [reason]\n" +
-                "OR " + getName() + " -m [user1] [user2]";
+        return getName() + " [user] [reason]";
     }
 }

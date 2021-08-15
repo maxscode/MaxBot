@@ -37,7 +37,7 @@ public class MuteCommand implements Command {
         if (message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("Missing Arguments.\n Usage: `" + getUsage() + "`");
+                    .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;

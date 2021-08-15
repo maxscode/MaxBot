@@ -30,12 +30,14 @@ public class KickCommand implements Command {
 
         // Embed Defaults
         String defaultTitle = "Kick Command";
+        String defaultFooter = "TIP: Mention multiple members in the users argument to perform a mass kick.";
 
         // Checks if the member has correctly invoked the command
         if (message.getMentionedMembers().isEmpty()) {
             EmbedBuilder missingArgs = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`");
+                    .setDescription("Missing Arguments.\n Usage: `" + prefix + getUsage() + "`")
+                    .setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(missingArgs.build()).queue();
             return;
@@ -45,7 +47,8 @@ public class KickCommand implements Command {
         if (!member.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noUserPerms = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members");
+                    .setDescription("You do not have permission to invoke this command.\nRequired Permission: Kick Members")
+                    .setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noUserPerms.build()).queue();
             return;
@@ -55,15 +58,18 @@ public class KickCommand implements Command {
         if (!selfMember.hasPermission(Permission.KICK_MEMBERS)) {
             EmbedBuilder noBotPerms = new EmbedBuilder()
                     .setTitle(defaultTitle)
-                    .setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members");
+                    .setDescription("I do not have permission to execute this command.\nRequired Permission: Kick Members")
+                    .setFooter(defaultFooter);
 
             channel.sendMessageEmbeds(noBotPerms.build()).queue();
             return;
         }
 
-        // Checks if the user has requested a kick of more than one member with a "-m" argument
-        if (args.get(0).equals("-m")) {
-            List<Member> targetMembers = message.getMentionedMembers();
+        // Checks if the user has requested a kick of more than one member
+        if (message.getMentionedMembers().size() > 1) {
+
+            final List<Member> targetMembers = message.getMentionedMembers();
+            final String reasonForKick = args.get(args.size() - 1);
 
             for (Member targetMember : targetMembers) {
 
@@ -95,7 +101,7 @@ public class KickCommand implements Command {
                         .setTitle(defaultTitle)
                         .setDescription("Kick failed.");
 
-                ctx.getGuild().kick(targetMember).queue(
+                ctx.getGuild().kick(targetMember, reasonForKick).reason(reasonForKick).queue(
                         (__) -> channel.sendMessageEmbeds(success.build()).queue(),
                         (error) -> channel.sendMessageEmbeds(failure.build()).queue()
                 );
@@ -156,7 +162,6 @@ public class KickCommand implements Command {
 
     @Override
     public String getUsage() {
-        return getName() + " [user] [reason]\n" +
-                "OR " + getName() + " -m [user1] [user2]";
+        return getName() + " [user] [reason]";
     }
 }
