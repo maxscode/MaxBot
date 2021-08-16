@@ -35,6 +35,7 @@ public class CommandManager {
         addCommand(new KickCommand());
         addCommand(new BanCommand());
         addCommand(new MuteCommand());
+        addCommand(new UnmuteCommand());
 
         // Management Commands
         addCommand(new SetCustomPrefixCommand());
