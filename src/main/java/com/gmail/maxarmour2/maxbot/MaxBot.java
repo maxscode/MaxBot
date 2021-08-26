@@ -23,7 +23,7 @@ public class MaxBot {
     private static final Logger LOGGER = LoggerFactory.getLogger(MaxBot.class);
     private static JDA jda;
 
-    public MaxBot() throws LoginException, SQLException {
+    public MaxBot() throws LoginException, SQLException, InterruptedException {
         jda = JDABuilder
                 .create(Config.get("TOKEN"),
                         GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES)
@@ -31,15 +31,16 @@ public class MaxBot {
                 .disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE, CacheFlag.ONLINE_STATUS)
                 .addEventListeners(new Listener())
                 .addEventListeners(new MutedRole())
-                .build();
+                .build()
+                .awaitReady();
 
-        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot v0.1.6-alpha"));
+        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.watching("MaxBot v1.0.1"));
 
         SQLiteDataSource.getConnection();
     }
 
     @SuppressWarnings("InstantiationOfUtilityClass")
-    public static void main(String[] args) throws SQLException, LoginException {
+    public static void main(String[] args) throws SQLException, LoginException, InterruptedException {
         new MaxBot();
 
 
